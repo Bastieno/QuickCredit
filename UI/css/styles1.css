@@ -8,6 +8,7 @@
 
 /*****************************************
 Table Of Contents:
+
 01. General Styles
 02. Navigation
 ******************************************/
@@ -33,6 +34,8 @@ html {
     height: 100%;
     margin: 0
 }
+
+* {box-sizing: border-box}
 
 
 h1 {
@@ -83,6 +86,7 @@ ul.topnav {
   background-color: #F8F8F8;
   border-bottom: 1px solid rgba(240, 106, 29, 1);
   transition: .3s;
+  z-index: 1;
 }
 
 ul.topnav li {float: left;}
@@ -225,13 +229,14 @@ main {
   flex: 0 1 80vh;
   margin: 0
 }
-
+/*
 footer {
   text-align: center;
   padding: 2rem 1rem;
   margin: auto;
   color: #333
 }
+*/
 
 footer h3 {
   font-size: 3rem;
@@ -280,11 +285,11 @@ footer h3 {
 
 /* Footer */
 .container {
-    width: 95%;
+    width: 100%;
     margin: 0 auto;
-  }
+}
 
-  .footer {
+.footer {
     text-align: center;
 }
 
@@ -294,3 +299,264 @@ footer h3 {
     color: #2F323E;
     font: 400 14px/1.5rem "Open Sans", sans-serif;
 }
+
+
+/* Check it out */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-size: 16px;
+  line-height: 1.4;
+  background-color: #fffffa;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  color: #3c4859;
+}
+
+
+section h2 {
+    font: 400 2.5rem/2.75rem "Open Sans", sans-serif;
+}
+
+section p {
+    text-align: center
+}
+
+.footer-container {
+    background: #aaa;
+    padding: 20px 20px 20px;
+    position: relative;
+}
+
+/* Global/Custom Components */
+a {
+  text-decoration: none;
+}
+
+button,
+input,
+textarea,
+select {
+  border: none;
+  font-family: "PT Sans", sans-serif;
+  font-size: 1em;
+  margin: 0;
+  text-decoration: none;
+  text-align: center;
+  outline: none;
+}
+
+input,
+select,
+textarea {
+  height: 45px;
+  text-align: left;
+  border: 1px solid #0facf3;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  padding: 0 10px;
+  background: transparent;
+}
+
+input[type="file"] {
+  padding-top: 8px;
+}
+
+textarea {
+  padding: 10px;
+  height: 90px;
+}
+
+button {
+  cursor: pointer;
+}
+ #radio-button {
+    text-align: left;
+    border: 2px solid #0facf3;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    padding: 0 10px;
+    background: transparent;
+}
+
+.btn {
+  padding: 12px 25px;
+  border-radius: 4px;
+  display: inline-block;
+  min-width: 110px;
+  text-align: center;
+}
+.btn1 {
+  padding: 12px 25px;
+  border-radius: 4px;
+  display: inline-block;
+  min-width: 110px;
+  text-align: center;
+}
+
+.btn-hollow {
+  border: 2px solid #fffffa;
+  color: #fffffa;
+}
+
+.btn-warning {
+  color: #fffffa;
+  background: #ef271b;
+}
+
+
+
+.card {
+  padding: 20px;
+  border-left: 3px solid #0facf3;
+  border-bottom: 3px solid #0facf3;
+  position: relative;
+  box-shadow: 0 10px 15px #cecaca;
+}
+
+.card p {
+  margin-bottom: 15px;
+}
+
+.column {
+  display: flex;
+  justify-content: space-between;
+}
+
+.margin--top--10 {
+  margin-top: 10px;
+  margin-left: -70px;
+}
+.margin--below {
+  padding-top: 0px;
+}
+.text--color--grey {
+  color: #0facf3;
+  text-align: center;
+}
+.text--primary1{
+  color: #828282;
+  margin-left: 4.5rem;
+}
+
+.container {
+  background: #bcc6d9;
+  padding: 50px 40px 130px;
+  position: relative;
+}
+
+.container-flip {
+  background: #aaa;
+  padding: 0px 4px 1px;
+  position: relative;
+}
+
+.form-container > .section-title,
+.form-card {
+  align-self: center;
+  position: inline-block;
+  margin: 30px;
+}
+.form-container > .section-title1,
+.form-card {
+  align-self: center;
+  position: inline-block;
+  margin: 0 auto;
+}
+
+label {
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+
+label span {
+  color: #ef271b;
+  font-size: 18px;
+}
+
+
+/* Main Section */
+div.login-container {
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* Homepage Sections */
+section {
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+}
+section .how-to {
+  padding-top: 0px;
+  padding-right: 40px;
+  padding-bottom: 10px;
+  padding-left: 25px;
+  display: flex;
+  flex-direction: column;
+}
+
+section > .btn {
+  align-self: center;
+}
+section > .btn1 {
+  align-self: center;
+}
+
+.section-title::after {
+  content: "";
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 60px;
+}
+
+
+/* Form Card */
+.form-card {
+  width: 45%;
+  background: #fffffa;
+  display: flex;
+  flex-direction: column;
+  padding: 50px 40px;
+  margin-top: 25px;
+}
+
+
+
+/* For smartphones (<768px) */
+@media screen and (max-width: 768px) {
+ 
+  hr {
+      display: none;
+  }
+  .container {
+    padding: 40px 20px;
+  }
+
+  .form-container {
+    padding: 40px 0 65px;
+  }
+  
+  section {
+    padding: 40px 20px;
+  }
+
+  .form-card {
+    width: 90%;
+    padding: 50px 25px;
+  }
+}
+
+/* Adjust container size for (width > 500 and width < 769px) */
+@media screen and (min-width: 500px) and (max-width: 768px) {
+  section {
+    padding: 20px 60px;
+  }
+}
+
