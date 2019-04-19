@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- Website Title -->
+        <title>QuickCredit | Signup Page</title>
+        <!-- Styles -->
+        <link href="css/styles1.css" rel="stylesheet">
+    </head>
+    
+    <body>
+
+        <ul class="topnav">
+            <li class="image-logo"><a href="./index.html"><img src="images/QuickCredit.png" alt="logo"></a></li>
+            <li class="right nav-link"><a href="./login.html">LOGIN</a></li>
+            <li class="current right nav-link"><a href="./signup.html">SIGN UP</a></li>
+            <li class="right nav-link"><a href="./index.html">HOME</a></li>   
+        </ul>
+    
+        <div class="login-container">
+            <section class="container-flip form-container">
+                <h2 class="section-title">Sign Up</h2>
+                <p>Please fill in this form to create an account.</p>
+                <hr>
+                <form class="form-card" role="form" method="POST" onsubmit="return submitForm()">
+                    <label for="firstname">First Name <span>*</span></label>
+                    <input type="text" id="firstname" name="firstname" class="form-element" placeholder="Enter First Name"
+                        required />
+                    <label for="lastname">Last name <span>*</span></label>
+                    <input type="text" id="lastname" name="lastname" class="form-element" placeholder="Enter Last Name"
+                        required />
+                    <label for="othername">Other name</label>
+                    <input type="text" id="othername" name="othername" class="form-element" placeholder="Enter Other Name" />
+                    <label for="email">Email <span>*</span></label>
+                    <input type="email" id="email" name="email" class="form-element" placeholder="Enter Email" required />
+                    <label for="phonenumber">Phone Number </label>
+                    <input type="number" id="phonenumber" name="phonenumber" class="form-element" placeholder="Enter Phone Number"
+                    >
+                    <label for="password">Password <span>*</span></label>
+                    <input type="password" id="password" name="password" class="form-element" placeholder="Enter Password"
+                        required />
+                    <button type="submit" id="signup" class="btn btn-primary2 updat">Sign Up</button>
+                    <div class="message-box"></div>
+                    <div class="margin--top--10 margin--below ">
+                        <p class="text--primary1">Already have an account?
+                            <a href="login.html" class="text--color--grey">login</a>
+                        </p>
+                    </div>
+                </form>
+            </section>
+        </div>
+        
+        <footer class="footer">
+            <div class="footer-container">
+              <p>QuickCredit | Copyright &copy; Andela 2019</p>
+            </div>
+        </footer>
+        
+        </body>
+        
+    </body>
+</html>
