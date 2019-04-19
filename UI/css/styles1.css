@@ -63,8 +63,8 @@ a {
 }
 
 a:hover {
-    color: #efefef;
     text-decoration: none;
+    cursor: pointer;
 }
 
 
@@ -444,7 +444,7 @@ button {
 }
 
 .container {
-  background: #bcc6d9;
+  background: #bbb;
   padding: 50px 40px 130px;
   position: relative;
 }
