@@ -293,6 +293,14 @@ a {
     text-decoration: none
 }
 
+td a:hover {
+    text-decoration: underline;
+}
+/* TODO
+header a:hover {
+    text-decoration: underline;
+}
+*/
 .table,
 .table-all {
     border-collapse: collapse;
