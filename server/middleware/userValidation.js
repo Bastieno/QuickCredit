@@ -1,6 +1,6 @@
 import users from '../models/user';
 
-class validate {
+class Validate {
   /**
    * @method signupValidator
    * @description validate user's input for the different fields during signup
@@ -136,4 +136,4 @@ class validate {
   }
 }
 
-export default validate;
+export default Validate;
