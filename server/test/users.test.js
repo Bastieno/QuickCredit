@@ -4,18 +4,20 @@ import app from '../app';
 
 chai.should();
 const url = '/api/v1/auth/signup';
+const loginUrl = '/api/v1/auth/signin';
 
 chai.use(chaiHttp);
 
+// Test for signup route
 describe('User SignUp Tests', () => {
   describe(`POST ${url}`, () => {
     it('Should create a new user account', (done) => {
       const user = {
-        email: 'fnduamaka@gmail.com',
-        firstName: 'Francis',
-        lastName: 'Nduamaka',
-        password: 'chisom15',
-        address: 'Km 10 Airport Road, Galadimawa, Abuja',
+        email: 'amarachi@gmail.com',
+        firstName: 'Amara',
+        lastName: 'Okoye',
+        password: 'mara23',
+        address: 'Km 18 Airport Road, Galadimawa, Abuja',
       };
       chai
         .request(app)
@@ -357,5 +359,95 @@ describe(`POST ${url}`, () => {
         res.should.have.status(409);
         done();
       });
+  });
+});
+
+// Test for login route
+describe('User Login Tests', () => {
+  describe(`POST ${loginUrl}`, () => {
+    it('Should successfully login a user account', (done) => {
+      const user = {
+        email: 'fnduamaka@gmail.com',
+        password: 'chisom15',
+      };
+      chai
+        .request(app)
+        .post(loginUrl)
+        .send(user)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+          res.body.should.have.property('data');
+          res.body.data.should.have.property('status');
+          res.body.data.should.have.property('isAdmin');
+          done();
+        });
+    });
+    it('Should return 400 and deny access if email is invalid', (done) => {
+      const user = {
+        email: 'amaka@gmail.com',
+        password: 'ogochukwu24',
+      };
+      chai
+        .request(app)
+        .post(loginUrl)
+        .send(user)
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.should.be.a('object');
+          res.body.should.have.property('error');
+          res.body.error.should.be.eql('Invalid Email or Password');
+          done();
+        });
+    });
+    it('Should return 400 and deny access if password is invalid', (done) => {
+      const user = {
+        email: 'fnduamaka@gmail.com',
+        password: 'chisom14',
+      };
+      chai
+        .request(app)
+        .post(loginUrl)
+        .send(user)
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.should.be.a('object');
+          res.body.should.have.property('error');
+          res.body.error.should.be.eql('Invalid Email or Password');
+          done();
+        });
+    });
+    it('Should return 400 if email is not entered', (done) => {
+      const user = {
+        password: 'chisom15',
+      };
+      chai
+        .request(app)
+        .post(loginUrl)
+        .send(user)
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.should.be.a('object');
+          res.body.should.have.property('error');
+          res.body.error.should.be.eql('Email is required');
+          done();
+        });
+    });
+    it('Should return 400 if password is not entered', (done) => {
+      const user = {
+        email: 'fnduamaka@gmail.com',
+      };
+      chai
+        .request(app)
+        .post(loginUrl)
+        .send(user)
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.should.be.a('object');
+          res.body.should.have.property('error');
+          res.body.error.should.be.eql('Password is required');
+          done();
+        });
+    });
   });
 });

@@ -1,6 +1,13 @@
 import users from '../models/user';
 
 class validate {
+  /**
+   * @method signupValidator
+   * @description validate user's input for the different fields during signup
+   * @param {object} req - The Request Object
+   * @param {object} res - The Response Object
+   * @returns {object} JSON API Response
+   */
   static signupValidator(req, res, next) {
     req
       .checkBody('email')
@@ -59,6 +66,13 @@ class validate {
     return next();
   }
 
+  /**
+   * @method emailExist
+   * @description To check if the email is unique
+   * @param {object} req - The Request Object
+   * @param {object} res - The Response Object
+   * @returns {object} JSON API Response
+   */
   static emailExist(req, res, next) {
     const { email } = req.body;
     const foundEmail = users.find(user => user.email === email);
@@ -69,6 +83,56 @@ class validate {
       });
     }
     return next();
+  }
+
+  /**
+   * @method loginValidation
+   * @description validate user's input for the different fields during login
+   * @param {object} req - The Request Object
+   * @param {object} res - The Response Object
+   * @returns {object} JSON API Response
+   */
+  static loginValidation(req, res, next) {
+    req
+      .checkBody('email')
+      .notEmpty()
+      .withMessage('Email is required')
+      .trim()
+      .isEmail()
+      .withMessage('Invalid Email Address')
+      .customSanitizer(email => email.toLowerCase());
+    req
+      .checkBody('password')
+      .notEmpty()
+      .withMessage('Password is required');
+    const errors = req.validationErrors();
+    if (errors) {
+      return res.status(400).json({
+        status: 400,
+        error: errors[0].msg,
+      });
+    }
+    return next();
+  }
+
+  /**
+   * @method loginCheck
+   * @description To check if user is registered
+   * @param {object} req - The Request Object
+   * @param {object} res - The Response Object
+   * @returns {object} JSON API Response
+   */
+  static loginCheck(req, res, next) {
+    const { email, password } = req.body;
+    const foundEmail = users.find(user => user.email === email);
+    const index = users.findIndex(user => user.email === email);
+    if (foundEmail && password === users[index].password) {
+      return next();
+    }
+    return res.status(400).json({
+      status: 400,
+      error: 'Invalid Email or Password',
+    });
   }
 }
 
