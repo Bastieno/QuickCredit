@@ -1,3 +1,4 @@
+// Mock data for userController
 const login = {
   userLogin: {
     email: 'baz@gmail.com',
@@ -187,8 +188,56 @@ const resetPassword = {
   },
 };
 
+// Mock data for loanController
+const createLoan = {
+  validLoan: {
+    email: 'baz@gmail.com',
+    firstName: 'Bastieno',
+    lastName: 'Nduamaka',
+    amount: '50000',
+    tenor: '6',
+  },
+  invalidLoan: {
+    email: 'amarachi@gmail.com',
+    firstName: '',
+    lastName: 'O',
+    amount: '5000',
+    tenor: '15',
+  },
+  conflictLoan: {
+    email: 'kimble@gmail.com',
+    firstName: 'Kimble',
+    lastName: 'Okoye',
+    amount: '50000',
+    tenor: '6',
+  },
+  differentEmail: {
+    email: 'amara@gmail.com',
+    firstName: 'Bastieno',
+    lastName: 'Nduamaka',
+    amount: '50000',
+    tenor: '6',
+  },
+  differentFirstName: {
+    email: 'baz@gmail.com',
+    firstName: 'Peter',
+    lastName: 'Nduamaka',
+    amount: '50000',
+    tenor: '6',
+  },
+  differentLastName: {
+    email: 'baz@gmail.com',
+    firstName: 'Bastieno',
+    lastName: 'Ndu',
+    amount: '50000',
+    tenor: '6',
+  },
+};
+
+
 export default {
   login,
   signUp,
   resetPassword,
+  createLoan,
 };

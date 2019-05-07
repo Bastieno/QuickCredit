@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import user from './user';
-
+import loan from './loan';
 
 const router = Router();
 
@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
   });
 });
 
-router.use('/api/v1', user);
+router.use('/api/v1', user, loan);
 
 router.all('*', (req, res) => {
   res.status(404).json({
