@@ -305,4 +305,34 @@ describe('User', () => {
       expect(response.status).to.equal(401);
     });
   });
+
+  describe('Get Single User', () => {
+    it('It should return a 404 error for a non-existing id', async () => {
+      const response = await chai
+        .request(app)
+        .get('/api/v1/users/10')
+        .set('Authorization', `Bearer ${adminToken}`);
+
+      expect(response.status).to.equal(404);
+    });
+
+    it('Admin should be able to retrieve a single user', async () => {
+      const response = await chai
+        .request(app)
+        .get('/api/v1/users/4')
+        .set('Authorization', `Bearer ${adminToken}`);
+
+      expect(response.status).to.equal(200);
+    });
+
+    it('A user cannot get another user account', async () => {
+      const response = await chai
+        .request(app)
+        .get('/api/v1/users/4')
+        .set('Authorization', `Bearer ${userToken}`);
+
+      expect(response.status).to.equal(403);
+    });
+  });
+
 });
