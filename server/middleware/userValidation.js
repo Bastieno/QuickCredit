@@ -68,6 +68,8 @@ const validateVerifyUser = [
     .withMessage('Invalid email address entered'),
 ];
 
+const validateDeleteUser = [validateVerifyUser[0]];
+
 const validationHandler = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -85,6 +87,7 @@ const userValidations = {
   validateSignup,
   validateUserId,
   validateVerifyUser,
+  validateDeleteUser,
   validationHandler,
 };
 
