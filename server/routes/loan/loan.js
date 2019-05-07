@@ -6,17 +6,15 @@ import authMiddleware from '../../middleware/auth';
 
 const loans = Router();
 
-const { verifyToken, userOnly } = authMiddleware;
-const {
-  validateCreateLoan,
-  validationHandler,
-} = loanValidations;
+const { verifyToken, userOnly, adminOnly } = authMiddleware;
+const { validateCreateLoan, validationHandler } = loanValidations;
 
-const {
-  createLoan,
-} = LoanController;
+const { createLoan, getLoans } = LoanController;
 
 // Router to create new loan
 loans.post('/', [verifyToken, userOnly, validateCreateLoan, validationHandler], createLoan);
+
+// Router to get all loans
+loans.get('/', [verifyToken, adminOnly], getLoans);
 
 export default loans;
