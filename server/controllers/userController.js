@@ -133,6 +133,21 @@ class UserController {
 
     return handleResponse(result, next, res, 201, 'User created successfully');
   }
+
+  /**
+   *
+   * @description Gets all registered users
+   * @static
+   * @param {object} req Request Object
+   * @param {object} res Response Object
+   * @param {object} next calls the next middleware in the request-response cycle
+   * @returns {array} List of all users
+   * @memberof UserController
+   */
+  static async getAllUsers(req, res, next) {
+    const result = await users;
+    return handleResponse(result, next, res, 200, 'Users retrieved successfully');
+  }
 }
 
 export default UserController;

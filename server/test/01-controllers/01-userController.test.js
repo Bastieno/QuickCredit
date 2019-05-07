@@ -6,6 +6,9 @@ import mockData from '../mock';
 const { expect } = chai;
 chai.use(chaiHttp);
 
+let userToken;
+let adminToken;
+
 describe('User', () => {
   describe('Signup User', () => {
     it('User should be able to create an account', async () => {
@@ -251,6 +254,7 @@ describe('User', () => {
 
       expect(response.status).to.equal(200);
       expect(response.body.data.token).to.be.a('string');
+      adminToken = response.body.data.token;
     });
 
     it('User should be able to login ', async () => {
@@ -261,6 +265,44 @@ describe('User', () => {
 
       expect(response.status).to.equal(200);
       expect(response.body.data.token).to.be.a('string');
+      userToken = response.body.data.token;
+    });
+  });
+
+  describe('Get All User', () => {
+    it('User should not be able to retrieve all users', async () => {
+      const response = await chai
+        .request(app)
+        .get('/api/v1/users/')
+        .set('Authorization', `Bearer ${userToken}`);
+
+      expect(response.status).to.equal(403);
+    });
+
+    it('Admin should be able to retrieve all users', async () => {
+      const response = await chai
+        .request(app)
+        .get('/api/v1/users/')
+        .set('Authorization', `Bearer ${adminToken}`);
+
+      expect(response.status).to.equal(200);
+    });
+
+    it('Should return an authorization error when an invalid token is passed', async () => {
+      const response = await chai
+        .request(app)
+        .get('/api/v1/users/')
+        .set('Authorization', 'Bearer WrongToken');
+
+      expect(response.status).to.equal(401);
+    });
+
+    it('Should return an authorization error when authorization header is not set', async () => {
+      const response = await chai
+        .request(app)
+        .get('/api/v1/users/');
+
+      expect(response.status).to.equal(401);
     });
   });
 });
