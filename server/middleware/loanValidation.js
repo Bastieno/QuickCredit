@@ -1,4 +1,4 @@
-import { body, query, validationResult } from 'express-validator/check';
+import { body, query, param, validationResult } from 'express-validator/check';
 import { sanitizeBody } from 'express-validator/filter';
 
 const validateCreateLoan = [
@@ -65,6 +65,12 @@ const validateQueryParams = [
     .withMessage('Repaid value should be a boolean'),
 ];
 
+const validateLoanId = [
+  param('loanId')
+    .isInt({ min: 1 })
+    .withMessage('loan ID must be a positive integer from 1'),
+];
+
 const validationHandler = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -81,6 +87,7 @@ const validationHandler = (req, res, next) => {
 const loanValidations = {
   validateCreateLoan,
   validateQueryParams,
+  validateLoanId,
   validationHandler,
 };
 export default loanValidations;

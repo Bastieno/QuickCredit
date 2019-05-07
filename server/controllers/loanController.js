@@ -119,6 +119,29 @@ class LoanController {
     const result = await loans;
     return handleResponse(result, next, res, 200, ' Loans retrieved successfully');
   }
+
+  /**
+   *
+   * @description Retrieves a single loan from the loans array
+   * @static
+   * @param {object} req Request Object
+   * @param {object} res Response Object
+   * @param {object} next calls the next middleware in the request-response cycle
+   * @returns {object} The loan Object
+   * @memberof LoanController
+   */
+  static async getSingleLoan(req, res, next) {
+    const { loanId } = req.params;
+    const foundLoan = await loans.find(loan => loan.loanId === parseInt(loanId, 10));
+    if (!foundLoan) {
+      return res.status(404).send({
+        status: 404,
+        error: 'Loan not found',
+      });
+    }
+    const result = foundLoan;
+    return handleResponse(result, next, res, 200, 'Loan retrieved successfully');
+  }
 }
 
 export default LoanController;
