@@ -1,20 +1,24 @@
 import { Router } from 'express';
-import expressValidator from 'express-validator';
-import UserController from '../controllers/userController';
-import Validate from '../middleware/userValidation';
+import user from './user';
 
 
 const router = Router();
 
-router.use(expressValidator());
+// Root handler
+router.get('/', (req, res) => {
+  res.status(200).json({
+    status: 200,
+    message: 'Welcome to QuickCredit',
+  });
+});
 
-const { userSignup, userLogin } = UserController;
-const { signupValidator, loginValidation, emailExist, loginCheck } = Validate;
+router.use('/api/v1', user);
 
-// Router to create user account
-router.post('/api/v1/auth/signup', [signupValidator, emailExist], userSignup);
-
-// Router to login user account
-router.post('/api/v1/auth/signin', [loginValidation, loginCheck], userLogin);
+router.all('*', (req, res) => {
+  res.status(404).json({
+    status: 404,
+    error: 'This route does not exist. Recheck parameters.',
+  });
+});
 
 export default router;

@@ -1,80 +1,137 @@
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
 import users from '../models/user';
-import Authenticator from '../auth/authentication';
+import handleResponse from '../utils/responseHandler';
+
+dotenv.config();
+const SECRET_KEY = process.env.JWT_KEY;
 
 /**
+ *
+ * @description Represent a collection of route handlers
  * @class UserController
- * @description Contains methods for each user related endpoint
- * @exports UserController
  */
-
 class UserController {
   /**
-   * @method userSignup
-   * @description creates a user account
-   * @param {object} req - The Request Object
-   * @param {object} res - The Response Object
+   *
+   * @description Login the user and send a token response
+   * @static
+   * @param {object} req Request Object
+   * @param {object} res Response Object
+   * @param {object} next Call the next middleware in the request-response cycle
    * @returns {object} JSON API Response
+   * @memberof UserController
    */
-  static userSignup(req, res) {
+  static async loginUser(req, res, next) {
+    const { email, password } = req.body;
+
+    const foundUser = users.find(user => user.email === email);
+
+    if (!foundUser) {
+      return res.status(400).send({
+        status: 400,
+        error: 'Email or password is incorrect',
+      });
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, foundUser.password);
+    if (!isPasswordValid) {
+      return res.status(400).send({
+        status: 400,
+        error: 'Email or password is incorrect',
+      });
+    }
+
     const {
-      email, firstName, lastName, password, address,
-    } = req.body;
-    const status = 'unverified';
-    const isAdmin = 'false';
-    const id = users.length + 1;
+      id, firstName, lastName, status, isAdmin,
+    } = foundUser;
 
-    const payload = { id, status, isAdmin };
+    const payload = {
+      id,
+      firstName,
+      lastName,
+      email,
+      status,
+      isAdmin,
+    };
 
-    const token = Authenticator.createToken(payload);
+    const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '1h' });
 
-    const data = {
+    const result = {
       token,
       id,
-      email,
       firstName,
       lastName,
-      password: Authenticator.hashPassword(password),
-      address,
-      status,
-      isAdmin,
-    };
-
-    const user = {
-      id,
       email,
-      firstName,
-      lastName,
-      password: Authenticator.hashPassword(password),
-      address,
-      status,
-      isAdmin,
     };
 
-    users.push(user);
-    return res.status(201).send({
-      status: 201,
-      data,
-    });
+    return handleResponse(result, next, res, 200, 'Login successfully');
   }
 
   /**
-   * @method userLogin
-   * @description login a user
-   * @param {object} req - The Request Object
-   * @param {object} res - The Response Object
+   *
+   * @description Create a new user
+   * @static
+   * @param {object} req Request Object
+   * @param {object} res Response Object
+   * @param {object} next calls the next middleware in the request-response cycle
    * @returns {object} JSON API Response
+   * @memberof UserController
    */
-  static userLogin(req, res) {
-    const { email } = req.body;
-    const findEmail = users.find(user => user.email === email);
-    const index = users.findIndex(user => user.email === email);
-    if (findEmail && index !== -1) {
-      res.status(200).send({
-        message: 'Login Successful!',
-        status: 200,
-        data: users[index],
+  static async createUser(req, res, next) {
+    const {
+      email, firstName, lastName, password, address,
+    } = req.body;
+
+    const id = users.length + 1;
+    const status = 'unverified';
+    const isAdmin = false;
+
+
+    const foundUser = users.find(user => user.email === email);
+
+    if (foundUser) {
+      return res.status(409).send({
+        status: 409,
+        error: 'Email already exists!',
       });
     }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const createdUser = {
+      id,
+      email,
+      firstName,
+      lastName,
+      password: hashedPassword,
+      address,
+      status,
+      isAdmin,
+    };
+
+    const payload = {
+      id,
+      email,
+      status,
+      isAdmin,
+    };
+
+    const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '24h' });
+
+    const result = {
+      token,
+      id,
+      firstName,
+      lastName,
+      email,
+      password: hashedPassword,
+    };
+
+    users.push(createdUser);
+
+    return handleResponse(result, next, res, 201, 'User created successfully');
   }
 }
 
