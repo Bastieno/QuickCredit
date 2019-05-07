@@ -171,6 +171,31 @@ class UserController {
     const result = foundUser;
     return handleResponse(result, next, res, 200, 'User retrieved successfully');
   }
+
+  /**
+   *
+   * @description Modify user's status
+   * @static
+   * @param {object} req Request Object
+   * @param {object} res Response Object
+   * @param {object} next calls the next middleware in the request-response cycle
+   * @returns {object} Updated user object
+   * @memberof UserController
+   */
+  static async verifyUser(req, res, next) {
+    const { userEmail } = req.params;
+    const foundUser = await users.find(user => user.email === userEmail);
+    if (!foundUser) {
+      return res.status(404).send({
+        status: 404,
+        error: 'User not found',
+      });
+    }
+    foundUser.status = 'verified';
+
+    const result = foundUser;
+    return handleResponse(result, next, res, 200, 'User verified successfully');
+  }
 }
 
 export default UserController;

@@ -12,6 +12,7 @@ const {
   validateLogin,
   validateSignup,
   validateUserId,
+  validateVerifyUser,
   validationHandler,
 } = validations;
 
@@ -20,6 +21,7 @@ const {
   createUser,
   getAllUsers,
   getSingleUser,
+  verifyUser,
 } = UserController;
 
 // Router to create user account
@@ -33,5 +35,8 @@ users.get('/', [verifyToken, adminOnly], getAllUsers);
 
 // Router to get a single user from the users array
 users.get('/:userId', [verifyToken, adminOnly, validateUserId, validationHandler], getSingleUser);
+
+// Router to mark a user as verified
+users.patch('/:userEmail', [verifyToken, adminOnly, validateVerifyUser, validationHandler], verifyUser);
 
 export { auth, users };
