@@ -106,6 +106,16 @@ class LoanController {
    * @memberof LoanController
    */
   static async getLoans(req, res, next) {
+    const { status } = req.query;
+    let { repaid } = req.query;
+
+    if (status && repaid) {
+      repaid = JSON.parse(repaid);
+      const loanType = repaid ? 'Repaid loans' : 'Current Loans';
+      const result = loans.filter(loan => loan.status === status && loan.repaid === repaid);
+      return handleResponse(result, next, res, 200, `${loanType} retrieved successfully`);
+    }
+
     const result = await loans;
     return handleResponse(result, next, res, 200, ' Loans retrieved successfully');
   }

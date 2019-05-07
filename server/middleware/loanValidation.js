@@ -1,4 +1,4 @@
-import { body, validationResult } from 'express-validator/check';
+import { body, query, validationResult } from 'express-validator/check';
 import { sanitizeBody } from 'express-validator/filter';
 
 const validateCreateLoan = [
@@ -49,6 +49,22 @@ const validateCreateLoan = [
     .withMessage('Tenor should be between 1 and 12 months'),
 ];
 
+const validateQueryParams = [
+  query('status')
+    .optional()
+    .isAlpha()
+    .withMessage('Invalid status')
+    .equals('approved')
+    .withMessage('Invalid status'),
+
+  query('repaid')
+    .optional()
+    .isAlpha()
+    .withMessage('Invalid value for repaid')
+    .matches(/^(true|false)$/)
+    .withMessage('Repaid value should be a boolean'),
+];
+
 const validationHandler = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -64,6 +80,7 @@ const validationHandler = (req, res, next) => {
 
 const loanValidations = {
   validateCreateLoan,
+  validateQueryParams,
   validationHandler,
 };
 export default loanValidations;
