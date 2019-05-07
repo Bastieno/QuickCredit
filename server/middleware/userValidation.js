@@ -1,4 +1,4 @@
-import { body, validationResult } from 'express-validator/check';
+import { body, param, validationResult } from 'express-validator/check';
 import { sanitizeBody } from 'express-validator/filter';
 
 const validateLogin = [
@@ -52,6 +52,12 @@ const validateSignup = [
     .withMessage('Invalid Address format entered'),
 ];
 
+const validateUserId = [
+  param('userId')
+    .isInt({ min: 1 })
+    .withMessage('User ID must be a positive integer from 1'),
+];
+
 const validationHandler = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -67,6 +73,7 @@ const validationHandler = (req, res, next) => {
 const userValidations = {
   validateLogin,
   validateSignup,
+  validateUserId,
   validationHandler,
 };
 

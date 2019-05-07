@@ -141,12 +141,35 @@ class UserController {
    * @param {object} req Request Object
    * @param {object} res Response Object
    * @param {object} next calls the next middleware in the request-response cycle
-   * @returns {array} List of all users
+   * @returns {array} List of all user objects
    * @memberof UserController
    */
   static async getAllUsers(req, res, next) {
     const result = await users;
     return handleResponse(result, next, res, 200, 'Users retrieved successfully');
+  }
+
+  /**
+   *
+   * @description Retrieves a single registered user account in the data store
+   * @static
+   * @param {object} req Request Object
+   * @param {object} res Response Object
+   * @param {object} next calls the next middleware in the request-response cycle
+   * @returns {object} A user account information
+   * @memberof UserController
+   */
+  static async getSingleUser(req, res, next) {
+    const { userId } = req.params;
+    const foundUser = await users.find(user => user.id === parseInt(userId, 10));
+    if (!foundUser) {
+      return res.status(404).send({
+        status: 404,
+        error: 'User not found',
+      });
+    }
+    const result = foundUser;
+    return handleResponse(result, next, res, 200, 'User retrieved successfully');
   }
 }
 
