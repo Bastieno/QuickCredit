@@ -7,6 +7,7 @@ const { expect } = chai;
 chai.use(chaiHttp);
 
 let userToken;
+let adminToken;
 
 describe('Loan', () => {
   describe('Create Loan', () => {
@@ -107,6 +108,50 @@ describe('Loan', () => {
 
       expect(response.status).to.equal(409);
       expect(response.body).to.have.property('error');
+    });
+  });
+
+  describe('Get all loans', () => {
+    it('Admin should be able to get all loans', async () => {
+      const loginResponse = await chai
+        .request(app)
+        .post('/api/v1/auth/signin')
+        .send(mockData.login.adminLogin);
+
+      adminToken = loginResponse.body.data.token;
+
+      const response = await chai
+        .request(app)
+        .get('/api/v1/loans')
+        .set('Authorization', `Bearer ${adminToken}`);
+
+      expect(response.status).to.equal(200);
+    });
+
+    it('User should not be able to view loan applications', async () => {
+      const response = await chai
+        .request(app)
+        .get('/api/v1/loans')
+        .set('Authorization', `Bearer ${userToken}`);
+
+      expect(response.status).to.equal(403);
+    });
+
+    it('Should return an authorization error when an invalid token is passed', async () => {
+      const response = await chai
+        .request(app)
+        .get('/api/v1/loans')
+        .set('Authorization', 'Bearer WrongToken');
+
+      expect(response.status).to.equal(401);
+    });
+
+    it('Should return an authentication error when authorization headers are not present', async () => {
+      const response = await chai
+        .request(app)
+        .get('/api/v1/loans');
+
+      expect(response.status).to.equal(401);
     });
   });
 });

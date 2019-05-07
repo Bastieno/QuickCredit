@@ -94,6 +94,21 @@ class LoanController {
 
     return handleResponse(result, next, res, 201, 'Loan created successfully');
   }
+
+  /**
+   *
+   * @description Get all loans application
+   * @static
+   * @param {object} req Request Object
+   * @param {object} res Response Object
+   * @param {object} next calls the next middleware in the request-response cycle
+   * @returns {array} JSON API Response
+   * @memberof LoanController
+   */
+  static async getLoans(req, res, next) {
+    const result = await loans;
+    return handleResponse(result, next, res, 200, ' Loans retrieved successfully');
+  }
 }
 
 export default LoanController;
