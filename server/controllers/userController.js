@@ -196,6 +196,33 @@ class UserController {
     const result = foundUser;
     return handleResponse(result, next, res, 200, 'User verified successfully');
   }
+
+  /**
+   *
+   * @description Deletes a  user's account
+   * @static
+   * @param {object} req Request Object
+   * @param {object} res Response Object
+   * @param {object} next calls the next middleware in the request-response cycle
+   * @returns {object} JSON API Response
+   * @memberof UserController
+   */
+  static async deleteUser(req, res, next) {
+    const { userEmail } = req.params;
+    const foundUser = users.find(user => user.email === userEmail);
+    const userIndex = users.findIndex(user => user.email === userEmail);
+
+    if (!foundUser) {
+      return res.status(404).send({
+        status: 404,
+        error: 'User not found',
+      });
+    }
+
+    const deletedUser = users.splice(userIndex, 1);
+    const result = deletedUser;
+    return handleResponse(result, next, res, 200, 'User deleted successfully');
+  }
 }
 
 export default UserController;

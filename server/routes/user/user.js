@@ -13,6 +13,7 @@ const {
   validateSignup,
   validateUserId,
   validateVerifyUser,
+  validateDeleteUser,
   validationHandler,
 } = validations;
 
@@ -22,6 +23,7 @@ const {
   getAllUsers,
   getSingleUser,
   verifyUser,
+  deleteUser,
 } = UserController;
 
 // Router to create user account
@@ -38,5 +40,8 @@ users.get('/:userId', [verifyToken, adminOnly, validateUserId, validationHandler
 
 // Router to mark a user as verified
 users.patch('/:userEmail', [verifyToken, adminOnly, validateVerifyUser, validationHandler], verifyUser);
+
+// Router to delete a user
+users.delete('/:userEmail', [verifyToken, adminOnly, validateDeleteUser, validationHandler], deleteUser);
 
 export { auth, users };

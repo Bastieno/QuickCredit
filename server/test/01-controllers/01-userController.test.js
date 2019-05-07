@@ -363,4 +363,42 @@ describe('User', () => {
       expect(response.status).to.equal(403);
     });
   });
+
+  describe('Delete User', () => {
+    it('It should return a 404 error when trying to delete a non-existing account', async () => {
+      const response = await chai
+        .request(app)
+        .del('/api/v1/users/jsnow@fakemail.com')
+        .set('Authorization', `Bearer ${adminToken}`);
+
+      expect(response.status).to.equal(404);
+    });
+
+    it('Should return an authorization error when an invalid token is passed', async () => {
+      const response = await chai
+        .request(app)
+        .del('/api/v1/users/gwinters@gmail.com')
+        .set('Authorization', 'Bearer WrongToken');
+
+      expect(response.status).to.equal(401);
+    });
+
+    it('Admin should be able to delete other accounts', async () => {
+      const response = await chai
+        .request(app)
+        .del('/api/v1/users/gwinters@gmail.com')
+        .set('Authorization', `Bearer ${adminToken}`);
+
+      expect(response.status).to.equal(200);
+    });
+
+    it('A user cannot delete other accounts', async () => {
+      const response = await chai
+        .request(app)
+        .del('/api/v1/users/gwinters@gmail.com')
+        .set('Authorization', `Bearer ${userToken}`);
+
+      expect(response.status).to.equal(403);
+    });
+  });
 });
