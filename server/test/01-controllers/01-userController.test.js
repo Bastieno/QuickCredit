@@ -335,4 +335,32 @@ describe('User', () => {
     });
   });
 
+  describe('Verify User', () => {
+    it('It should return a 404 error when trying to verify a non-existing account', async () => {
+      const response = await chai
+        .request(app)
+        .patch('/api/v1/users/adams@gmail.com')
+        .set('Authorization', `Bearer ${adminToken}`);
+
+      expect(response.status).to.equal(404);
+    });
+
+    it('Only admin should be able to verify an account', async () => {
+      const response = await chai
+        .request(app)
+        .patch('/api/v1/users/fnduamaka@gmail.com')
+        .set('Authorization', `Bearer ${adminToken}`);
+
+      expect(response.status).to.equal(200);
+    });
+
+    it('A user cannot verify an account', async () => {
+      const response = await chai
+        .request(app)
+        .patch('/api/v1/users/fnduamaka@gmail.com')
+        .set('Authorization', `Bearer ${userToken}`);
+
+      expect(response.status).to.equal(403);
+    });
+  });
 });

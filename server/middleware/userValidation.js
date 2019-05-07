@@ -58,6 +58,16 @@ const validateUserId = [
     .withMessage('User ID must be a positive integer from 1'),
 ];
 
+const validateVerifyUser = [
+  param('userEmail')
+    .normalizeEmail({ all_lowercase: true })
+    .exists()
+    .withMessage('A valid email must be provided.')
+    .trim()
+    .isEmail()
+    .withMessage('Invalid email address entered'),
+];
+
 const validationHandler = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -74,6 +84,7 @@ const userValidations = {
   validateLogin,
   validateSignup,
   validateUserId,
+  validateVerifyUser,
   validationHandler,
 };
 
