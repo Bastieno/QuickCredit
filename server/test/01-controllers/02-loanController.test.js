@@ -154,4 +154,56 @@ describe('Loan', () => {
       expect(response.status).to.equal(401);
     });
   });
+
+  describe('Current loans', () => {
+    it('It should return all current loans', async () => {
+      const response = await chai
+        .request(app)
+        .get('/api/v1/loans?status=approved&repaid=false')
+        .set('Authorization', `Bearer ${adminToken}`);
+
+      expect(response.status).to.equal(200);
+    });
+
+    it('It should return a 400 error when wrong status value is provided', async () => {
+      const response = await chai
+        .request(app)
+        .get('/api/v1/loans?status=wrong&repaid=false')
+        .set('Authorization', `Bearer ${adminToken}`);
+
+      expect(response.status).to.equal(400);
+      expect(response.body.error).to.equal('Invalid status');
+    });
+
+    it('It should return a 400 error when wrong repaid value is provided', async () => {
+      const response = await chai
+        .request(app)
+        .get('/api/v1/loans?status=approved&repaid=wrong')
+        .set('Authorization', `Bearer ${adminToken}`);
+
+      expect(response.status).to.equal(400);
+      expect(response.body.error).to.equal('Repaid value should be a boolean');
+    });
+  });
+
+  describe('Repaid loans', () => {
+    it('It should return all repaid loans', async () => {
+      const response = await chai
+        .request(app)
+        .get('/api/v1/loans?status=approved&repaid=true')
+        .set('Authorization', `Bearer ${adminToken}`);
+
+      expect(response.status).to.equal(200);
+    });
+
+    it('It should return a 400 error when wrong status value is provided', async () => {
+      const response = await chai
+        .request(app)
+        .get('/api/v1/loans?status=wrong&repaid=true')
+        .set('Authorization', `Bearer ${adminToken}`);
+
+      expect(response.status).to.equal(400);
+      expect(response.body.error).to.equal('Invalid status');
+    });
+  });
 });
