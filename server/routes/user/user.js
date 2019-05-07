@@ -14,6 +14,7 @@ const {
   validateUserId,
   validateVerifyUser,
   validateDeleteUser,
+  validateResetPassword,
   validationHandler,
 } = validations;
 
@@ -24,6 +25,7 @@ const {
   getSingleUser,
   verifyUser,
   deleteUser,
+  resetPassword,
 } = UserController;
 
 // Router to create user account
@@ -43,5 +45,8 @@ users.patch('/:userEmail', [verifyToken, adminOnly, validateVerifyUser, validati
 
 // Router to delete a user
 users.delete('/:userEmail', [verifyToken, adminOnly, validateDeleteUser, validationHandler], deleteUser);
+
+// Router to reset password
+users.post('/password', [validateResetPassword, validationHandler], resetPassword);
 
 export { auth, users };

@@ -401,4 +401,69 @@ describe('User', () => {
       expect(response.status).to.equal(403);
     });
   });
+
+  describe('Reset Password', () => {
+    it('User should be able to reset password', async () => {
+      const response = await chai
+        .request(app)
+        .post('/api/v1/users/password')
+        .send(mockData.resetPassword.registeredUser);
+
+      expect(response.status).to.equal(201);
+    });
+
+    it('It should return 404 for non-existing accounts', async () => {
+      const response = await chai
+        .request(app)
+        .post('/api/v1/users/password')
+        .send(mockData.resetPassword.unregisteredUser);
+
+      expect(response.status).to.equal(404);
+    });
+
+    it('It should return 400 if email is missing', async () => {
+      const response = await chai
+        .request(app)
+        .post('/api/v1/users/password')
+        .send(mockData.resetPassword.missingEmail);
+
+      expect(response.status).to.equal(400);
+    });
+
+    it('It should return 400 if password is missing', async () => {
+      const response = await chai
+        .request(app)
+        .post('/api/v1/users/password')
+        .send(mockData.resetPassword.missingPassword);
+
+      expect(response.status).to.equal(400);
+    });
+
+    it('It should return 400 if email is invalid', async () => {
+      const response = await chai
+        .request(app)
+        .post('/api/v1/users/password')
+        .send(mockData.resetPassword.invalidEmail);
+
+      expect(response.status).to.equal(400);
+    });
+
+    it('It should return 400 if password is less than 6 characters', async () => {
+      const response = await chai
+        .request(app)
+        .post('/api/v1/users/password')
+        .send(mockData.resetPassword.shortPassword);
+
+      expect(response.status).to.equal(400);
+    });
+
+    it('It should return a 400 error when password has more than 100 characters', async () => {
+      const response = await chai
+        .request(app)
+        .post('/api/v1/users/password')
+        .send(mockData.resetPassword.longPassword);
+
+      expect(response.status).to.equal(400);
+    });
+  });
 });
