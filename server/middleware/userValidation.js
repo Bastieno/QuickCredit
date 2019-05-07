@@ -70,6 +70,16 @@ const validateVerifyUser = [
 
 const validateDeleteUser = [validateVerifyUser[0]];
 
+const validateResetPassword = [
+  validateLogin[0],
+  body('newPassword')
+    .exists()
+    .withMessage('Password is required')
+    .trim()
+    .isLength({ min: 6, max: 100 })
+    .withMessage('Password should be at least 6 characters'),
+];
+
 const validationHandler = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -88,6 +98,7 @@ const userValidations = {
   validateUserId,
   validateVerifyUser,
   validateDeleteUser,
+  validateResetPassword,
   validationHandler,
 };
 

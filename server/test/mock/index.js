@@ -158,7 +158,37 @@ const signUp = {
   },
 };
 
+const resetPassword = {
+  registeredUser: {
+    email: 'chisom@gmail.com',
+    newPassword: 'myhero',
+  },
+  unregisteredUser: {
+    email: 'kamara@gmail.com',
+    newPassword: 'kmara23',
+  },
+  missingEmail: {
+    newPassword: '12457895',
+  },
+  missingPassword: {
+    email: 'chisom@gmail.com',
+  },
+  invalidEmail: {
+    email: 'fnduamaka@yahoo',
+    newPassword: 'chisom15',
+  },
+  shortPassword: {
+    email: 'baz@gmail.com',
+    newPassword: '12345',
+  },
+  longPassword: {
+    email: 'uche@gmail.com',
+    newPassword: new Array(102).join('a'),
+  },
+};
+
 export default {
   login,
   signUp,
+  resetPassword,
 };

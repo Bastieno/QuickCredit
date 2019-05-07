@@ -223,6 +223,32 @@ class UserController {
     const result = deletedUser;
     return handleResponse(result, next, res, 200, 'User deleted successfully');
   }
+
+  /**
+   *
+   * @description Reset a user's password
+   * @static
+   * @param {object} req Request Object
+   * @param {object} res Response Object
+   * @param {object} next calls the next middleware in the request-response cycle
+   * @returns {object} JSON API Response
+   * @memberof UserController
+   */
+  static async resetPassword(req, res, next) {
+    const { email, newPassword } = req.body;
+    const foundUser = users.find(user => user.email === email);
+
+    if (!foundUser) {
+      return res.status(404).send({
+        status: 404,
+        error: 'User not found',
+      });
+    }
+
+    foundUser.password = await bcrypt.hash(newPassword, 10);
+    const result = foundUser;
+    return handleResponse(result, next, res, 201, 'Your Password has been reset successfully');
+  }
 }
 
 export default UserController;
