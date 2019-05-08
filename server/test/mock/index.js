@@ -243,6 +243,19 @@ const statusUpdate = {
   },
 };
 
+// Mock data for repaymentController
+const createRepaymentRecord = {
+  validPaidAmount: {
+    paidAmount: '10800.33',
+  },
+  invalidPaidAmount: {
+    paidAmount: '12s589',
+  },
+  largePaidAmount: {
+    paidAmount: '600000.00',
+  },
+};
+
 
 export default {
   login,
@@ -250,4 +263,5 @@ export default {
   resetPassword,
   createLoan,
   statusUpdate,
+  createRepaymentRecord,
 };

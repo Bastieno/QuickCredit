@@ -91,7 +91,7 @@ const loans = [
     status: 'pending',
     repaid: false,
     tenor: 12,
-    amount: 20000.00,
+    amount: 200000.00,
     paymentInstallment: 17500.00,
     balance: 210000.00,
     interest: 10000.00,
