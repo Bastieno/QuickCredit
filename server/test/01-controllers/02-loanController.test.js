@@ -252,4 +252,85 @@ describe('Loan', () => {
       expect(response.status).to.equal(401);
     });
   });
+
+  describe('Approve/Reject Loan Application', () => {
+    it('It should return a 404 error for a non-existing id', async () => {
+      const response = await chai
+        .request(app)
+        .patch('/api/v1/loans/13')
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send(mockData.statusUpdate.validStatus);
+
+      expect(response.status).to.equal(404);
+    });
+
+    it('Admin should be able to approve/reject loan application', async () => {
+      const response = await chai
+        .request(app)
+        .patch('/api/v1/loans/8')
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send(mockData.statusUpdate.validStatus);
+
+      expect(response.status).to.equal(200);
+    });
+
+    it('Admin cannot approve/reject loans for unverified users', async () => {
+      const response = await chai
+        .request(app)
+        .patch('/api/v1/loans/4')
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send(mockData.statusUpdate.validStatus);
+
+      expect(response.status).to.equal(403);
+    });
+
+    it('A user cannot approve/reject a loan', async () => {
+      const response = await chai
+        .request(app)
+        .patch('/api/v1/loans/2')
+        .set('Authorization', `Bearer ${userToken}`)
+        .send(mockData.statusUpdate.validStatus);
+
+      expect(response.status).to.equal(403);
+    });
+
+    it('It should return a 400 error for already approved loans', async () => {
+      const response = await chai
+        .request(app)
+        .patch('/api/v1/loans/6')
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send(mockData.statusUpdate.validStatus);
+
+      expect(response.status).to.equal(400);
+    });
+
+    it('It should return a 400 error for when an incorrect status is provided', async () => {
+      const response = await chai
+        .request(app)
+        .patch('/api/v1/loans/5')
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send(mockData.statusUpdate.invalidStatus);
+
+      expect(response.status).to.equal(400);
+    });
+
+    it('Should return an authorization error when an invalid token is passed', async () => {
+      const response = await chai
+        .request(app)
+        .patch('/api/v1/loans/2')
+        .set('Authorization', 'Bearer WrongToken')
+        .send(mockData.statusUpdate.validStatus);
+
+      expect(response.status).to.equal(401);
+    });
+
+    it('Should return an authentication error when authorization headers are not present', async () => {
+      const response = await chai
+        .request(app)
+        .patch('/api/v1/loans/2')
+        .send(mockData.statusUpdate.validStatus);
+
+      expect(response.status).to.equal(401);
+    });
+  });
 });
