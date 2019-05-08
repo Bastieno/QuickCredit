@@ -234,10 +234,20 @@ const createLoan = {
   },
 };
 
+const statusUpdate = {
+  validStatus: {
+    status: 'approved',
+  },
+  invalidStatus: {
+    status: 'incorrect',
+  },
+};
+
 
 export default {
   login,
   signUp,
   resetPassword,
   createLoan,
+  statusUpdate,
 };

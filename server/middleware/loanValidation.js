@@ -1,4 +1,6 @@
-import { body, query, param, validationResult } from 'express-validator/check';
+import {
+  body, query, param, validationResult,
+} from 'express-validator/check';
 import { sanitizeBody } from 'express-validator/filter';
 
 const validateCreateLoan = [
@@ -71,6 +73,17 @@ const validateLoanId = [
     .withMessage('loan ID must be a positive integer from 1'),
 ];
 
+const validateLoanStatusUpdate = [
+  validateLoanId[0],
+  body('status')
+    .exists()
+    .withMessage('Status is required')
+    .isAlpha()
+    .withMessage('Status is invalid')
+    .matches(/^(approved|rejected)$/)
+    .withMessage('Status is invalid'),
+];
+
 const validationHandler = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -88,6 +101,7 @@ const loanValidations = {
   validateCreateLoan,
   validateQueryParams,
   validateLoanId,
+  validateLoanStatusUpdate,
   validationHandler,
 };
 export default loanValidations;

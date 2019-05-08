@@ -11,10 +11,16 @@ const {
   validateCreateLoan,
   validateQueryParams,
   validateLoanId,
+  validateLoanStatusUpdate,
   validationHandler,
 } = loanValidations;
 
-const { createLoan, getLoans, getSingleLoan } = LoanController;
+const {
+  createLoan,
+  getLoans,
+  getSingleLoan,
+  loanStatusUpdate,
+} = LoanController;
 
 // Router to create new loan
 loans.post('/', [verifyToken, userOnly, validateCreateLoan, validationHandler], createLoan);
@@ -24,5 +30,8 @@ loans.get('/', [verifyToken, adminOnly, validateQueryParams, validationHandler],
 
 // Router to get a specific loan
 loans.get('/:loanId', [verifyToken, adminOnly, validateLoanId, validationHandler], getSingleLoan);
+
+// Router to approve or reject a loan (update the status property)
+loans.patch('/:loanId', [verifyToken, adminOnly, validateLoanStatusUpdate, validationHandler], loanStatusUpdate);
 
 export default loans;

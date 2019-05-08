@@ -1,5 +1,6 @@
 import moment from 'moment';
 import loans from '../models/loan';
+import users from '../models/user';
 import handleResponse from '../utils/responseHandler';
 
 
@@ -141,6 +142,51 @@ class LoanController {
     }
     const result = foundLoan;
     return handleResponse(result, next, res, 200, 'Loan retrieved successfully');
+  }
+
+  /**
+   *
+   * @description Modify loan's status
+   * @static
+   * @param {object} req Request Object
+   * @param {object} res Response Object
+   * @param {object} next calls the next middleware in the request-response cycle
+   * @returns {object} Updated loan.status property
+   * @memberof UserController
+   */
+  static async loanStatusUpdate(req, res, next) {
+    const { loanId } = req.params;
+    const { status } = req.body;
+    const foundLoan = await loans.find(loan => loan.loanId === parseInt(loanId, 10));
+    if (!foundLoan) {
+      return res.status(404).send({
+        status: 404,
+        error: 'Loan not found',
+      });
+    }
+
+    // Admin cannot approve loans for unverifed users
+    const { userEmail } = foundLoan;
+    const foundUser = await users.find(user => user.email === userEmail);
+    if (foundUser.status === 'unverified') {
+      return res.status(403).send({
+        status: 403,
+        error: 'You cannot approve loans for unverified users',
+      });
+    }
+
+    // For loans that are already approved
+    if (foundLoan.status === 'approved') {
+      return res.status(400).send({
+        status: 400,
+        error: 'This loan is approved already!',
+      });
+    }
+
+    foundLoan.status = status;
+
+    const result = foundLoan;
+    return handleResponse(result, next, res, 200, 'Loan status updated successfully');
   }
 }
 
