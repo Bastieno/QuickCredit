@@ -116,4 +116,50 @@ describe('Repayment', () => {
       expect(response.body).to.have.property('error');
     });
   });
+
+  describe('View Repayment History', () => {
+    it('User should be able to view repayment history of a loan', async () => {
+      const response = await chai
+        .request(app)
+        .get('/api/v1/loans/3/repayments')
+        .set('Authorization', `Bearer ${userToken}`);
+
+      expect(response.status).to.equal(200);
+    });
+
+    it('It should return a 404 error for a non-existing loanId', async () => {
+      const response = await chai
+        .request(app)
+        .get('/api/v1/loans/15/repayments')
+        .set('Authorization', `Bearer ${userToken}`);
+
+      expect(response.status).to.equal(404);
+    });
+
+    it('It should return a 400 error for unapproved loans', async () => {
+      const response = await chai
+        .request(app)
+        .get('/api/v1/loans/5/repayments')
+        .set('Authorization', `Bearer ${userToken}`);
+
+      expect(response.status).to.equal(400);
+    });
+
+    it('It should return an authorization error when an invalid token is passed', async () => {
+      const response = await chai
+        .request(app)
+        .get('/api/v1/loans/3/repayments')
+        .set('Authorization', 'Bearer WrongToken');
+
+      expect(response.status).to.equal(401);
+    });
+
+    it('Should return an authentication error when authorization headers are not present', async () => {
+      const response = await chai
+        .request(app)
+        .get('/api/v1/loans/3/repayments');
+
+      expect(response.status).to.equal(401);
+    });
+  });
 });

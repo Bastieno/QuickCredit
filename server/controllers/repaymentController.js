@@ -85,6 +85,50 @@ class RepaymentController {
 
     return handleResponse(result, next, res, 201, 'Repayment record created successfully');
   }
+
+  /**
+   *
+   * @description Gets all repayment record for a loan
+   * @static
+   * @param {object} req Request Object
+   * @param {object} res Response Object
+   * @param {object} next calls the next middleware in the request-response cycle
+   * @returns {array} JSON API Response
+   * @memberof RepaymentController
+   */
+  static async getRepaymentRecord(req, res, next) {
+    let { loanId } = req.params;
+    loanId = parseInt(loanId, 10);
+    const foundLoan = loans.find(loan => loan.loanId === loanId);
+
+    if (!foundLoan) {
+      return res.status(404).send({
+        status: 404,
+        error: 'No loan with the given ID does not exist!',
+      });
+    }
+
+    if (foundLoan.status !== 'approved') {
+      return res.status(400).send({
+        status: 400,
+        error: 'This loan has not been approved!',
+      });
+    }
+
+    const getAllRepaymentRecord = repayments.filter(
+      repayment => repayment.loanId === loanId,
+    );
+
+    const result = getAllRepaymentRecord;
+
+    if (result.length === 0) {
+      return handleResponse(result, next, res, 200, 'There is no repayment record for this loan!');
+    }
+
+    const message = result.length === 1 ? 'Repayment record retrieved successfully' : 'Repayment records retrieved successfully';
+
+    return handleResponse(result, next, res, 200, message);
+  }
 }
 
 export default RepaymentController;
