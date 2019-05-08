@@ -16,6 +16,8 @@ Quick Credit is an online lending platform that provides short term soft loans t
 
 > [Quick Credit UI Templates]( https://bastieno.github.io/QuickCredit/UI)
 
+> The app is currently hosted on Heroku. Visit [QuickCredit]( https://baz-quick-credit.herokuapp.com/) now!
+
 ## Required Features
 
 - Users can sign up
