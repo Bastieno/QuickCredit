@@ -10,9 +10,10 @@ const loans = Router();
 
 const { verifyToken, userOnly, adminOnly } = authMiddleware;
 
-const { createRepaymentRecord } = RepaymentController;
+const { createRepaymentRecord, getRepaymentRecord } = RepaymentController;
 
-const { validateCreateRepaymentRecord } = repaymentValidations;
+const { validateCreateRepaymentRecord, validateGetRepaymentRecord } = repaymentValidations;
+
 const {
   validateCreateLoan,
   validateQueryParams,
@@ -42,5 +43,8 @@ loans.patch('/:loanId', [verifyToken, adminOnly, validateLoanStatusUpdate, valid
 
 // Router to create a repayment record
 loans.post('/:loanId/repayment', [verifyToken, adminOnly, validateCreateRepaymentRecord, repaymentValidations.validationHandler], createRepaymentRecord);
+
+// Router to view repayment records for a loan
+loans.get('/:loanId/repayments', [verifyToken, userOnly, validateGetRepaymentRecord, repaymentValidations.validationHandler], getRepaymentRecord);
 
 export default loans;
