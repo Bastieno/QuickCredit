@@ -1,4 +1,7 @@
 import express from 'express';
+import log from 'fancy-log';
+import compression from 'compression';
+import helmet from 'helmet';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
 import router from './routes';
@@ -6,6 +9,8 @@ import router from './routes';
 const app = express();
 const port = process.env.PORT || 3000;
 
+app.use(helmet());
+app.use(compression()); // Compress all routes
 app.use(morgan('tiny'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -18,8 +23,7 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(port, () => {
-  // eslint-disable-next-line no-console
-  console.log(`Server started on port ${port}`);
+  log(`Server started on port ${port}`);
 });
 
 export default app;
