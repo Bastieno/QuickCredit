@@ -26,11 +26,8 @@
         <div class="col s4">
           <img src="./images/person-face-2.png" class="circle margin-right" style="width:46px">
         </div>
-        <div class="col s8 bar">
+        <div class="col s8 bar" style="margin-top:10px">
           <span>Welcome, <strong>Francis</strong></span><br>
-          <a href="./404.html" class="bar-item button"><i class="fa fa-envelope"></i></a>
-          <a href="./404.html" class="bar-item button"><i class="fa fa-user"></i></a>
-          <a href="./404.html" class="bar-item button"><i class="fa fa-cog"></i></a>
         </div>
       </div>
       <hr>
@@ -41,11 +38,8 @@
         <a href="#" class="bar-item button padding-16 hide-large dark-grey hover-black"
           onclick="fclose()" title="Close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
         <a href="./user-dashboard.html" class="bar-item button padding blue"><i class="fa fa-eye fa-fw"></i>  Overview</a>
-        <a href="./loan-apply.html" class="bar-item button padding"><i class="fa fa-globe fa-fw"></i>  Get Started</a>
-        <a href="./404.html" class="bar-item button padding"><i class="fa fa-user fa-fw"></i>  Profile</a>
-        <a href="./loan-repay.html" class="bar-item button padding"><i class="fa fa-money fa-fw"></i>  Repay Loan</a>
-        <a href="./user-repayment-history.html" class="bar-item button padding"><i class="fa fa-history fa-fw"></i>  Transactions</a>
-        <a href="./404.html" class="bar-item button padding"><i class="fa fa-cog fa-fw"></i>  Useful Links</a>
+        <a href="./loan-apply.html" class="bar-item button padding"><i class="fa fa-globe fa-fw"></i>  Apply for loan</a>
+        <a href="./user-repayment-history.html" class="bar-item button padding"><i class="fa fa-history fa-fw"></i>  Repayment History</a>
       </div>
     </nav>
   
@@ -59,179 +53,106 @@
   
       <!-- Header -->
       <header class="container text-blue" style="padding-top:10px">
-          <div class="container m12 light-grey round-medium">
-              <h5><a href="./user-dashboard.html"> <span class="text-green">Dashboard</span></a></h5>
-          </div>
+         <div class="container m12 light-grey round-medium">
+            <h5><a href="./user-dashboard.html"> <span class="text-green">Dashboard</span></a></h5>
+        </div>
       </header>
-
-    <div id="section2">
-        <div class="container">
-            <h1 class="center">How It Works</h1>
-            <h3 class="center">For Borrowers</h3>
-            <div class="row" style="padding-top: 30px;">
-                <div class="col m12 card margin-right">
-                   <img src="./images/loan-process-flow.png" class="the_flow_img">
-                </div>
-                <div class="col m10 margin padding">
-                    <table>
-                        <tr>
-                            <th valign="top">
-                                <img src="./images/one.png" alt="one" />
-                            </th>
-                            <td>
-                                <h6><strong>Get Your Risk Score and Verify Your Details</strong></h6>
-                                <p>Answer the QuickCredit Risk Assessment for free to get your lowest eligible rate in minutes.</p>
-                            </td>
-                        </tr>
-                        <tr class="tr_spacer"></tr>
-                        <tr>
-                            <th valign="top">
-                                <img src="./images/two.png" alt="two" />
-                            </th>
-                            <td>
-                                <h6><strong>Choose a Loan Tenor</strong></h6>
-                                <p>Get a fixed term for 3, 6 or 12 months as well as your interest rates.</p>
-                            </td>
-                        </tr>
-                        <tr class="tr_spacer"></tr>
-                        <tr>
-                            <th valign="top">
-                                <img src="./images/three.png" alt="three" />
-                            </th>
-                            <td>
-                                <h6><strong>Upload Documents, Be Verified and Get a Loan</strong></h6>
-                                <p>We carry out some verification checks on your information. Once you upload the required documents, the loan approval process begins.</p>
-                            </td>
-                        </tr>
-                        <tr class="tr_spacer"></tr>
-                        <tr>
-                            <th valign="top">
-                                <img src="./images/four.png" alt="four" />
-                            </th>
-                            <td>
-                                <h6><strong>Disburse Your Loan</strong></h6>
-                                <p>After the completion of the verification checks, if approved, your loan will be sent to your bank account.</p>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-
+  
+      <div class="card mb-3 margin-top border margin-left margin-right">
+            <div class="card-header">
+              <i class="fa fa-table"></i>
+              Repayment History</div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table-all hoverable" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr class="teal">
+                      <th>Loan ID</th>
+                      <th>Loan Amount</th>
+                      <th>Interest</th>
+                      <th>Total Payment Due</th>
+                      <th>Loan Status</th>
+                      <th>Create On</th>
+                      <th>Tenor</th>
+                      <th>Repaid Amount</th>
+                      <th>Balance</th>
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr class="teal">
+                      <th>Loan ID</th>
+                      <th>Loan Amount</th>
+                      <th>Interest</th>
+                      <th>Total Payment Due</th>
+                      <th>Loan Status</th>
+                      <th>Create On</th>
+                      <th>Tenor</th>
+                      <th>Repaid Amount</th>
+                      <th>Balance</th>
+                    </tr>
+                  </tfoot>
+                  <tbody>
+                    <tr>
+                      <td><a href="#" class="text-blue underline" title="Click for more info">101</a></td>
+                      <td>$20,000</td>
+                      <td>0.05</td>
+                      <td>$32,000</td>
+                      <td><span class="text-blue">Current</span> </td>
+                      <td>2019/04/25</td>
+                      <td>12 months</td>
+                      <td>$25,000</td>
+                      <td>$7,000</td>
+                    </tr>
+                    <tr>
+                      <td><a href="#" class="text-blue underline" title="Click for more info">103</a></td>
+                      <td>$20,000</td>
+                      <td>0.05</td>
+                      <td>$28,000</td>
+                      <td><span class="text-green">Repaid</span></td>
+                      <td>2019/04/25</td>
+                      <td>6 months</td>
+                      <td>$28,000</td>
+                      <td>$0</td>
+                    </tr>
+                    <tr>
+                      <td><a href="#" class="text-blue underline" title="Click for more info">107</a></td>
+                      <td>$15,000</td>
+                      <td>0.05</td>
+                      <td>$18,000</td>
+                      <td><span class="text-green">Repaid</span></td>
+                      <td>2019/04/25</td>
+                      <td>3 months</td>
+                      <td>$18,000</td>
+                      <td>$0</td>
+                    </tr>
+                    <tr>
+                      <td><a href="#" class="text-blue underline" title="Click for more info">111</a></td>
+                      <td>$37,000</td>
+                      <td>0.05</td>
+                      <td>$41,000</td>
+                      <td><span class="text-green">Repaid</span></td>
+                      <td>2019/04/25</td>
+                      <td>6 months</td>
+                      <td>$41,000</td>
+                      <td>$0</td>
+                    </tr>
+                    <tr>
+                      <td><a href="#" class="text-blue underline" title="Click for more info">116</a></td>
+                      <td>$29,000</td>
+                      <td>0.05</td>
+                      <td>$36,000</td>
+                      <td><span class="text-green">Repaid</span></td>
+                      <td>2019/04/25</td>
+                      <td>12 months</td>
+                      <td>$36,000</td>
+                      <td>$0</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
-        </div>
-    </div>
-    <div id="section3">
-        <div class="container">
-            <h2 class="center">Top Features</h2>
-            <div class="row" style="padding-top: 50px;">
-                <div class="col m6 container">
-                    <div>
-                        <img src="./images/padlock.png">
-                        <h4><strong>Safe and Protected</strong></h4>
-                        <p class="medium">Borrow with peace of mind. We don't share your sensitive financial details.</p>
-                    </div>
-                    <div style="margin-top: 55px">
-                        <img src="./images/cs.png">
-                        <h4><strong>Good Customer Service </strong></h4>
-                        <p class="medium">Online or on the phone, we're here to help with any queries you may have.</p>
-                    </div>
-                </div>
-
-                <div class="col m6 container">
-                    <div>
-                        <img src="./images/easy.png">
-                        <h4><strong>Simple and Convenient</strong></h4>
-                        <p class="medium">The process of loan repayment is as easy as it can get.</p>
-                    </div>
-                    <div style="margin-top: 55px">
-                        <img src="./images/interest.png">
-                        <h4><strong>Low Interest Rate</strong></h4>
-                        <p class="medium">Our clients are offered the best interest rate to relieve the burden of repayment.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="sectionCalc" class="row-padding white">
-
-        <div class="half">
-            <div class="get_rates_title">Get A Quote!</div>
-
-            <div id="slidecontainer">
-                Risk Level
-                <input type="range" step="1" min="0" max="9" value="4" class="slider" id="myRange">
-                <div id="get_rates_loan_grade">
-                    B+
-                </div>
-            </div>
-
-            <div id="term_container">
-                Duration?
-                <select id="get_rates_terms" class="large" style="padding-left: 12px;">
-                    <option value="3" selected>3 Months</option>
-                    <option value="6">6 Months</option>
-                    <option value="12">12 Months</option>
-                    
-                </select>
-            </div>
-
-            <div id="amount_container">
-                Amount?
-                <input type="text" id="get_rate_amount" class="large" placeholder="20,000" value="20,000" style="padding-left: 12px;">
-            </div>
-
-            <div id="get_rate_button_container">
-                <button id="get_rate_button">Get Rate Now</button>
-            </div>
-        </div>
-
-
-        <div class="half">
-            <div class="quote_writeup">
-                <p>
-                    Every client is thoroughly vetted by our team of professionals to ensure our loans go to credible clients. 
-                </p>
-                <p>
-                    The vetting process assigns a Risk Score to a borrower as an indication of how risky the evaluation thinks the borrower is.
-                </p>
-            </div>
-        </div>
-    </div>
-    
-    
-    <div id="purposes_section">
-        <div class="purp_title">Loan Class</div>
-        <div class="purpose_block">
-            <div class="purpose_block_img" id="buss_opp"></div>
-            <div class="purpose_block_text">Business Opportunity</div>
-        </div>
-        
-        <div class="purpose_block">
-            <div class="purpose_block_img" id="health"></div>
-            <div class="purpose_block_text">Medical Expenses</div>
-        </div>
-        
-        <div class="purpose_block">
-            <div class="purpose_block_img" id="household"></div>
-            <div class="purpose_block_text">Rent</div>
-        </div>
-        
-        <div class="purpose_block">
-            <div class="purpose_block_img" id="car_fin"></div>
-            <div class="purpose_block_text">Automobile Financing</div>
-        </div>
-        
-        <div class="purpose_block">
-            <div class="purpose_block_img" id="vacation"></div>
-            <div class="purpose_block_text">Vacation</div>
-        </div>
-        
-        <div class="purpose_block">
-            <div class="purpose_block_img" id="edu"></div>
-            <div class="purpose_block_text">Education</div>
-        </div>
-    </div>
-
+            <div class="card-footer small text-muted">Last viewed, yesterday at 11:59 PM</div>
+          </div>
 
     <!-- Footer -->
     <footer class="container padding-16 light-grey center">

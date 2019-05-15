@@ -25,11 +25,8 @@
       <div class="col s4">
         <img src="./images/person-face-2.png" class="circle margin-right" style="width:46px">
       </div>
-      <div class="col s8 bar">
+      <div class="col s8 bar" style="margin-top:10px">
         <span>Welcome, <strong>Baz</strong></span><br>
-        <a href="404.html" class="bar-item button"><i class="fa fa-envelope"></i></a>
-        <a href="404.html" class="bar-item button"><i class="fa fa-user"></i></a>
-        <a href="404.html" class="bar-item button"><i class="fa fa-cog"></i></a>
       </div>
     </div>
     <hr>
@@ -45,7 +42,8 @@
       <a href="./admin-current-loans.html" class="bar-item button padding"><i class="fa fa-money fa-fw"></i>  Current Loans</a>
       <a href="./admin-repaid-loans.html" class="bar-item button padding"><i class="fa fa-suitcase fa-fw"></i>  Repaid Loans</a>
       <a href="./admin-pending-loans.html" class="bar-item button padding"><i class="fa fa-bell fa-fw"></i>  Pending Loans</a>
-      <a href="404.html" class="bar-item button padding"><i class="fa fa-cog fa-fw"></i>  Settings</a><br><br>
+      <a href="./admin-repayment-record.html" class="bar-item button padding"><i class="fa fa-money fa-fw"></i> Create Repayment Record</a>
+      <a href="./admin-repayment-transactions.html" class="bar-item button padding"><i class="fa fa-money fa-fw"></i> Repayment Transactions</a>
     </div>
   </nav>
 
@@ -64,96 +62,6 @@
         </div>
     </header>
 
-    <div class="row-padding margin-bottom margin-top">
-      <div class="quarter" title="View new messages" onclick="location.href='404.html';"  style="cursor:pointer;">
-        <div class="container blue padding-16 round-medium margin-bottom" style="opacity:1">
-          <div class="left" style="opacity:0.4"><i class="fa fa-comments xxxlarge"></i></div>
-          <div class="right">
-            <h4>8</h4>
-          </div>
-          <div class="clear"></div>
-          <h4>New Messages</h4>
-        </div>
-      </div>
-      <div class="quarter" title="View new repayment transactions" onclick="location.href='./admin-repayment-transactions.html';"  style="cursor:pointer;">
-        <div class="container orange text-white padding-16 round-medium margin-bottom" style="opacity:1">
-          <div class="left" style="opacity:0.4"><i class="fa fa-list xxxlarge"></i></div>
-          <div class="right">
-            <h4>11</h4>
-          </div>
-          <div class="clear"></div>
-          <h4>New Transactions</h4>
-        </div>
-      </div>
-      <div class="quarter" title="View new loan applications" onclick="location.href='./admin-pending-loans.html';"  style="cursor:pointer;">
-        <div class="container green padding-16 round-medium margin-bottom" style="opacity:1">
-          <div class="left" style="opacity:0.4"><i class="fa fa-shopping-cart xxxlarge"></i></div>
-          <div class="right">
-            <h4>15</h4>
-          </div>
-          <div class="clear"></div>
-          <h4>New Loan Applications</h4>
-        </div>
-      </div>
-      <div class="quarter" title="View newly registered users" onclick="location.href='404.html';"  style="cursor:pointer;">
-        <div class="container dark-gray text-white padding-16 round-medium" style="opacity:1">
-          <div class="left" style="opacity:0.4"><i class="fa fa-users xxxlarge"></i></div>
-          <div class="right">
-            <h4>5</h4>
-          </div>
-          <div class="clear"></div>
-          <h4>New Users</h4>
-        </div>
-      </div>
-    </div>
-
-    <div class="panel">
-      <div class="row-padding" style="margin:0 -16px">
-        <div class="twothird">
-          <h5>Current Location</h5>
-          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d63421.014207822096!2d3.3423078435372306!3d6.545232898572282!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b8d9054daf45d%3A0x63c61851310630f3!2sAndela%2C+Epic+Tower!5e0!3m2!1sen!2sng!4v1555774328977!5m2!1sen!2sng" width="400" height="300" frameborder="0" style="border:0;width: 100%" allowfullscreen></iframe>
-        </div>
-        <div class="third">
-            <h5>Top States</h5>
-            <table class="table striped bordered border hoverable white">
-              <thead>
-                  <tr class="teal">
-                    <th>Name</th>
-                    <th>% of Clients</th>
-                  </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Lagos</td>
-                  <td>65%</td>
-                </tr>
-                <tr>
-                  <td>Abuja</td>
-                  <td>15.7%</td>
-                </tr>
-                <tr>
-                  <td>Rivers</td>
-                  <td>5.6%</td>
-                </tr>
-                <tr>
-                  <td>Oyo</td>
-                  <td>2.1%</td>
-                </tr>
-                <tr>
-                  <td>Kaduna</td>
-                  <td>1.9%</td>
-                </tr>
-                <tr>
-                  <td>Kano</td>
-                  <td>1.5%</td>
-                </tr>
-              </tbody>
-            </table><br>
-            <button class="button dark-grey">More States  <i class="fa fa-arrow-right"></i></button>
-        </div>
-      </div>
-    </div>
-    <hr>
     <div class="container">
       <h5>New Loan Applications</h5>
       <table class="table striped white border">
@@ -323,34 +231,6 @@
         </table>
     </div>
     <hr>
-
-    <div class="container">
-      <h5>New Messages</h5>
-      <div class="card-2 white padding-large">
-          <div class="row">
-              <div class="col m1">
-                <img class="circle" src="./images/person-face-5.png" style="width:70px;height:70px">
-              </div>
-              <div class="col m11 container">
-                <h4>Raphael <span class="opacity medium">April 25, 2019, 9:12 PM</span></h4>
-                <p>Keep up the GREAT work! Your services are awesome!!! Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><br>
-              </div>
-          </div>
-          <hr>
-          <div class="row">
-              <div class="col m1">
-                <img class="circle" src="./images/person-face-1.png" style="width:70px;height:70px">
-              </div>
-              <div class="col m11 container">
-                <h4>Cynthia <span class="opacity medium">April 25, 2019, 10:15 PM</span></h4>
-                <p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><br>
-              </div>
-          </div>
-          <button class="button dark-grey">More Messages  <i class="fa fa-arrow-right"></i></button>
-      </div>
-    </div>
-    <br>
 
     <!-- Footer -->
     <footer class="container padding-16 light-grey center">
