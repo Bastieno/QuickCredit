@@ -1,47 +1,202 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <!-- Website Title -->
-        <title>QuickCredit | Home Page</title>
-        <!-- Styles -->
-        <link href="css/styles.css" rel="stylesheet">
-    </head>
-    
-    <body>
 
-        <ul class="topnav">
-            <li class="image-logo"><a href="index.html"><img src="images/QuickCredit.png" alt="logo"></a></li>
-            <li class="right nav-link"><a href="login.html">LOGIN</a></li>
-            <li class="right nav-link"><a href="signup.html">SIGN UP</a></li>
-            <li class="right nav-link"><a href="admin-dashboard.html">ADMIN</a></li>
-            <li class="right nav-link"><a href="user-dashboard.html">USER</a></li>
-            <li class="right nav-link"><a href="404.html">DOCS</a></li>   
-        </ul>
-    
-        <main>
-            <div id="landing">
-                <div id="landing-text">
-                    <div id="landing-text-inner">
-                        <h1>GET INSTANT LOANS</h1>
-                        <h2>Never Run Out Of Cash</h2>
-                        <a href="signup.html" class="btn">APPLY NOW</a>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>QuickCredit | Index page</title>
+  <link rel="stylesheet" href="./css/mystyles.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body class="light-grey">
+  <!-- Top container -->
+  <div class="bar top topnav" style="z-index:4;">
+      <a href="index.html"><span class="bar-item large text-orange" style="font-weight:600">QuickCredit</span></a>
+    <button class="bar-item right button hide-medium hide-large hover-none" onclick="fopen();"><i
+        class="fa fa-bars"></i></button>
+    <nav class="nav-menu hide-small">
+        <a href="login.html"><span class="bar-item right" style="font-weight:600">Login</span></a>
+        <a href="signup.html"><span class="bar-item right" style="font-weight:600">Signup</span></a>
+      <a href="admin-dashboard.html"><span class="bar-item right" style="font-weight:600">Admin</span></a>
+      <a href="user-dashboard.html"><span class="bar-item right" style="font-weight:600">User</span></a>
+      <a href="index.html"><span class="bar-item right current" style="font-weight:600">Home</span></a>
+    </nav>
+  </div>
+
+  <!-- Mobile menu -->
+  <nav class="white animate-left hide hide-medium hide-large" style="z-index:3" id="mySidebar"><br>
+    <div class="bar-block">
+      <br>
+      <a href="./index.html" class="bar-item button center padding orange" style="font-weight:600">  Home</a>
+      <a href="./user-dashboard.html" class="bar-item button center padding" style="font-weight:600">  User</a>
+      <a href="./admin-dashboard.html" class="bar-item button center padding" style="font-weight:600">  Admin</a>
+      <a href="./signup.html" class="bar-item button center padding" style="font-weight:600">  Signup</a>
+      <a href="./login.html" class="bar-item button center padding" style="font-weight:600">  Login</a>
+     
+    </div>
+  </nav>
+
+
+  <!-- Overlay effect when menu buttton on small screens -->
+  <div class="overlay hide-medium hide-large animate-opacity" onclick="fclose()" style="cursor:pointer"
+    title="close top menu" id="myOverlay"></div>
+
+  <!-- !PAGE CONTENT! -->
+  <div class="main" style="margin-top:43px;">
+    <div class="panel1" id="landing">
+        <div class="row-padding">
+          <div class="half" style="padding:2em;">
+            <div id="landing-text">
+                <div id="landing-text-inner">
+                    <h1>GET INSTANT LOANS</h1>
+                    <h2>Never Run Out Of Cash</h2>
+                    <a href="signup.html" class="btn1">APPLY NOW</a>
+                </div>
+            </div>
+          </div>
+          <div class="half">
+              <div id="landing-image" class="image-container">
+                  <img class="header-image" src="images/woman-at-desk.svg" alt="description"
+                  style="max-width: 100%; max-height: 100%;">
+              </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="section2" class="card-4 white">
+        <div class="container">
+            <h1 class="center">How It Works</h1>
+            <div class="row">
+                <div class="col m10 margin padding">
+                    <table>
+                        <tr>
+                            <th valign="top">
+                                <img src="./images/one.png" alt="one" />
+                            </th>
+                            <td>
+                                <h6><strong>Create an Account and Verify Your Details</strong></h6>
+                                <p>Get started by creating an account with us.</p>
+                            </td>
+                        </tr>
+                        <tr class="tr_spacer"></tr>
+                        <tr>
+                            <th valign="top">
+                                <img src="./images/two.png" alt="two" />
+                            </th>
+                            <td>
+                                <h6><strong>Choose a Loan Tenor</strong></h6>
+                                <p>Get a fixed term for 3, 6 or 12 months as well as your interest rates.</p>
+                            </td>
+                        </tr>
+                        <tr class="tr_spacer"></tr>
+                        <tr>
+                            <th valign="top">
+                                <img src="./images/three.png" alt="three" />
+                            </th>
+                            <td>
+                                <h6><strong>Upload Documents, Be Verified and Get a Loan</strong></h6>
+                                <p>We carry out some verification checks on your information. </p>
+                                <p> Once you upload the required documents, the loan approval process begins.</p>
+                            </td>
+                        </tr>
+                        <tr class="tr_spacer"></tr>
+                        <tr>
+                            <th valign="top">
+                                <img src="./images/four.png" alt="four" />
+                            </th>
+                            <td>
+                                <h6><strong>Disburse Your Loan</strong></h6>
+                                <p>After the completion of the verification checks, if approved, your loan will be sent to your bank account.</p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div id="section3">
+        <div class="container">
+            <h2 class="center">Top Features</h2>
+            <div class="row center" style="padding-top: 50px;">
+                <div class="col m6 container">
+                    <div>
+                        <img src="./images/padlock.png">
+                        <h4><strong>Safe and Protected</strong></h4>
+                        <p class="medium">Borrow with peace of mind. We don't share your sensitive financial details.</p>
+                    </div>
+                    <div style="margin-top: 55px">
+                        <img src="./images/cs.png">
+                        <h4><strong>Good Customer Service </strong></h4>
+                        <p class="medium">Online or on the phone, we're here to help with any queries you may have.</p>
                     </div>
                 </div>
-                <div id="landing-image" class="image-container">
-                    <img class="header-image" src="images/woman-at-desk.svg" alt="description">
+
+                <div class="col m6 container">
+                    <div>
+                        <img src="./images/easy.png">
+                        <h4><strong>Simple and Convenient</strong></h4>
+                        <p class="medium">The process of loan repayment is as easy as it can get.</p>
+                    </div>
+                    <div style="margin-top: 55px">
+                        <img src="./images/interest.png">
+                        <h4><strong>Low Interest Rate</strong></h4>
+                        <p class="medium">Our clients are offered the best interest rate to relieve the burden of repayment.</p>
+                    </div>
                 </div>
             </div>
-        </main>
+        </div>
+    </div>
+    
+    <div id="purposes_section">
+        <div class="purp_title">Loan Class</div>
+        <div class="purpose_block">
+            <div class="purpose_block_img" id="buss_opp"></div>
+            <div class="purpose_block_text">Business Opportunity</div>
+        </div>
+        
+        <div class="purpose_block">
+            <div class="purpose_block_img" id="health"></div>
+            <div class="purpose_block_text">Medical Expenses</div>
+        </div>
+        
+        <div class="purpose_block">
+            <div class="purpose_block_img" id="household"></div>
+            <div class="purpose_block_text">Rent</div>
+        </div>
+        
+        <div class="purpose_block">
+            <div class="purpose_block_img" id="car_fin"></div>
+            <div class="purpose_block_text">Automobile Financing</div>
+        </div>
+        
+        <div class="purpose_block">
+            <div class="purpose_block_img" id="vacation"></div>
+            <div class="purpose_block_text">Vacation</div>
+        </div>
+        
+        <div class="purpose_block">
+            <div class="purpose_block_img" id="edu"></div>
+            <div class="purpose_block_text">Education</div>
+        </div>
+    </div>
+  </div>
 
-        <footer class="footer">
-            <div class="container">
-              <p>QuickCredit | Copyright &copy; Andela 2019</p>
-            </div>
-        </footer>
-        
-        </body>
-        
-    </body>
+    
+    <!-- Footer -->
+    <footer class="container padding-16 light-grey center">
+      <p>Powered by <a href="./index.html" target="_blank"><span class="text-teal"> QuickCredit | Copyright &copy; Andela 2019
+      </span></a></p>
+    </footer>
+
+    <!-- End page content -->
+  </div>
+
+  <script src="./js/main.js"></script>
+
+</body>
+
 </html>

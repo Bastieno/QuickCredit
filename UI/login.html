@@ -1,49 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <!-- Website Title -->
-        <title>QuickCredit | Login Page</title>
-        <!-- Styles -->
-        <link href="css/styles1.css" rel="stylesheet">
-    </head>
-    
-    <body>
 
-        <ul class="topnav">
-            <li class="image-logo"><a href="index.html"><img src="images/QuickCredit.png" alt="logo"></a></li>
-            <li class="current right nav-link"><a href="login.html">LOGIN</a></li>
-            <li class="right nav-link"><a href="signup.html">SIGN UP</a></li>
-            <li class="right nav-link"><a href="index.html">HOME</a></li>   
-        </ul>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>QuickCredit | Login Page</title>
+  <link rel="stylesheet" href="./css/mystyles.css">
+  <link href="css/styles.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body class="light-grey">
+  <!-- Top container -->
+  <div class="bar top topnav" style="z-index:4;">
+      <a href="index.html"><span class="bar-item large text-orange" style="font-weight:600">QuickCredit</span></a>
+    <button class="bar-item right button hide-medium hide-large hover-none" onclick="fopen();"><i
+        class="fa fa-bars"></i></button>
+    <nav class="nav-menu hide-small">
+        <a href="login.html"><span class="bar-item right current" style="font-weight:600">Login</span></a>
+        <a href="signup.html"><span class="bar-item right" style="font-weight:600">Signup</span></a>
+      <a href="index.html"><span class="bar-item right" style="font-weight:600">Home</span></a>
+    </nav>
+  </div>
+
+  <!-- Mobile menu -->
+  <nav class="white animate-left hide hide-medium hide-large" style="z-index:3" id="mySidebar"><br>
+    <div class="bar-block">
+      <br>
+      <a href="./index.html" class="bar-item button center padding" style="font-weight:600">  Home</a>
+      <a href="./signup.html" class="bar-item button center padding" style="font-weight:600">  Signup</a>
+      <a href="./login.html" class="bar-item button center padding current" style="font-weight:600">  Login</a>
+     
+    </div>
+  </nav>
+
+
+  <!-- Overlay effect when menu buttton on small screens -->
+  <div class="overlay hide-medium hide-large animate-opacity" onclick="fclose()" style="cursor:pointer"
+    title="close top menu" id="myOverlay"></div>
+
+  <!-- !PAGE CONTENT! -->
+  <div class="main" style="margin-top:43px;">
+      <div class="login-container">
+          <section class="container form-container">
+              <form class="form-card">
+                  <label for="email">Email<span>*</span></label>
+                  <input type="email" name="email" id="email" class="form-element" placeholder="Enter Email" required />
+                  <label for="password">Password<span>*</span></label>
+                  <input type="password" name="password" id="password" class="form-element" placeholder="Enter Password"
+                      required />
+                  <div class="forgot--reset">
+                      <a href="password-reset.html" class="text--color--grey">Forgot Password?</a>
+                  </div>
+                  <button type="submit" class="btn btn-primary user-form">Login</button>
+                  <div class="margin--top--10 margin--below ">
+                      <p class="text--primary1">Dont have an account?
+                          <a href="signup.html" class="text--color--grey">Sign up</a>
+                      </p>
+                  </div>
+              </form>
+          </section>
+      </div>
+      
+
     
-        <div class="login-container">
-            <section class="container form-container">
-                <h2 class="section-title1">Login</h2>
-                <form class="form-card">
-                    <label for="email">Email<span>*</span></label>
-                    <input type="email" name="email" id="email" class="form-element" placeholder="Enter Email" required />
-                    <label for="password">Password<span>*</span></label>
-                    <input type="password" name="password" id="password" class="form-element" placeholder="Enter Password"
-                        required />
-                    <div class="forgot--reset">
-                        <a href="password-reset.html" class="text--color--grey">Forgot Password?</a>
-                    </div>
-                    <button type="submit" class="btn btn-primary user-form">Login</button>
-                    <div class="margin--top--10 margin--below ">
-                        <p class="text--primary1">Dont have an account?
-                            <a href="signup.html" class="text--color--grey">Sign up</a>
-                        </p>
-                    </div>
-                </form>
-            </section>
-        </div>
-        
-        <footer class="footer">
-            <div class="footer-container">
-              <p>QuickCredit | Copyright &copy; Andela 2019</p>
-            </div>
-        </footer>
-    </body>
+    <!-- Footer -->
+    <footer class="container padding-16 light-grey center">
+      <p>Powered by <a href="./index.html" target="_blank"><span class="text-teal"> QuickCredit | Copyright &copy; Andela 2019
+      </span></a></p>
+    </footer>
+
+    <!-- End page content -->
+  </div>
+
+  <script src="./js/main.js"></script>
+
+</body>
+
 </html>

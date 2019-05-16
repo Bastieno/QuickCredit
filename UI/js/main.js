@@ -10,7 +10,8 @@ fopen = () => {
 	mySidebar.style.display = 'none';
 	overlayBg.style.display = "none";
   } else {
-	mySidebar.style.display = 'block';
+  mySidebar.style.display = 'block';
+  mySidebar.classList.remove('hide');
 	overlayBg.style.display = "block";
   }
 }
