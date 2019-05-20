@@ -12,6 +12,10 @@
     "start": "node build/app.js",
     "start-dev": "nodemon --exec babel-node server/app.js",
     "heroku-postbuild": "npm run build",
+    "db-create": "babel-node ./server/config/createdb",
+    "db-drop": "babel-node ./server/config/dropdb",
+    "db-populate": "babel-node ./server/config/populatedb",
+    "db-init": "npm run db-drop && npm run db-create && npm run db-populate",
     "nyc": "nyc --reporter=lcov npm run test && nyc report --reporter=text-lcov | coveralls",
     "coverage": "nyc npm test",
     "test": "nyc --reporter=text --reporter=html mocha --recursive ./server/test --exit --require @babel/register"
@@ -49,7 +53,8 @@
     "jsonwebtoken": "^8.5.1",
     "mocha": "^6.1.4",
     "moment": "^2.24.0",
-    "morgan": "^1.9.1"
+    "morgan": "^1.9.1",
+    "pg": "^7.11.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.3",
