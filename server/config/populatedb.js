@@ -8,6 +8,7 @@ import repayments from '../utils/dbSeed/dbRepaymentSeed';
 const setupDbTables = async () => {
   try {
     // Insert users into db
+    log('Tables seeding starts');
     await pool.query(query.regUser(users[0]));
     await pool.query(query.regUser(users[1]));
     await pool.query(query.regUser(users[2]));
@@ -35,12 +36,7 @@ const setupDbTables = async () => {
     await pool.query(query.createRepaymentRecord(repayments[4]));
     await pool.query(query.createRepaymentRecord(repayments[5]));
 
-    const allUsers = await pool.query('select * from users;');
-    const allLoans = await pool.query('select * from loans;');
-    const allRepayments = await pool.query('select * from repayments;');
-    log('users:', allUsers.rows);
-    log('loans:', allLoans.rows);
-    log('repayments:', allRepayments.rows);
+    log('Tables seeding ends');
   } catch (error) {
     log(error.stack);
     return error.stack;

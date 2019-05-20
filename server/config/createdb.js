@@ -44,6 +44,7 @@ repayments (
     await pool.query(`${repaymentsTable}`);
     log('Database creation ends');
   } catch (error) {
+    log(error.stack);
     return error.stack;
   }
 })();
