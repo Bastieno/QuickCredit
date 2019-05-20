@@ -1,0 +1,58 @@
+const repayments = [
+  {
+    loanId: 1,
+    createdOn: 'December 18, 2018 4:36 AM',
+    amount: 50000.00,
+    monthlyInstallment: 10833.333333333334,
+    paidAmount: 10833.34,
+    balance: 54166.66,
+    paymentNumber: 1,
+  },
+  {
+    loanId: 1,
+    createdOn: 'January 18, 2019 4:36 AM',
+    amount: 50000.00,
+    monthlyInstallment: 10833.333333333334,
+    paidAmount: 10833.34,
+    balance: 43333.32000000001,
+    paymentNumber: 2,
+  },
+  {
+    loanId: 1,
+    createdOn: 'February 18, 2019 4:36 AM',
+    amount: 50000.00,
+    monthlyInstallment: 10833.333333333334,
+    paidAmount: 10833.34,
+    balance: 32499.980000000007,
+    paymentNumber: 3,
+  },
+  {
+    loanId: 1,
+    createdOn: 'March 18, 2019 4:36 AM',
+    amount: 50000.00,
+    monthlyInstallment: 10833.333333333334,
+    paidAmount: 10833.34,
+    balance: 21666.640000000007,
+    paymentNumber: 4,
+  },
+  {
+    loanId: 1,
+    createdOn: 'April 18, 2019 4:36 AM',
+    amount: 50000.00,
+    monthlyInstallment: 10833.333333333334,
+    paidAmount: 10833.34,
+    balance: 10833.300000000007,
+    paymentNumber: 5,
+  },
+  {
+    loanId: 1,
+    createdOn: 'May 18, 2019 4:36 AM',
+    amount: 50000.00,
+    monthlyInstallment: 10833.333333333334,
+    paidAmount: 10833.34,
+    balance: 7.275957614183426e-12,
+    paymentNumber: 6,
+  },
+];
+
+export default repayments;
