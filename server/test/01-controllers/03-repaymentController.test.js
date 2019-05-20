@@ -21,7 +21,7 @@ describe('Repayment', () => {
 
       const response = await chai
         .request(app)
-        .post('/api/v1/loans/6/repayment')
+        .post('/api/v1/loans/3/repayment')
         .set('Authorization', `Bearer ${adminToken}`)
         .send(mockData.createRepaymentRecord.validPaidAmount);
 
@@ -82,7 +82,7 @@ describe('Repayment', () => {
     it('It should return a 400 error if loan has been fully repaid', async () => {
       const response = await chai
         .request(app)
-        .post('/api/v1/loans/2/repayment')
+        .post('/api/v1/loans/1/repayment')
         .set('Authorization', `Bearer ${adminToken}`)
         .send(mockData.createRepaymentRecord.validPaidAmount);
 
@@ -92,7 +92,7 @@ describe('Repayment', () => {
     it('It should return a 400 error if paidAmount is greater than client debt', async () => {
       const response = await chai
         .request(app)
-        .post('/api/v1/loans/6/repayment')
+        .post('/api/v1/loans/3/repayment')
         .set('Authorization', `Bearer ${adminToken}`)
         .send(mockData.createRepaymentRecord.largePaidAmount);
 
@@ -108,7 +108,7 @@ describe('Repayment', () => {
       userToken = loginResponse.body.data.token;
       const response = await chai
         .request(app)
-        .post('/api/v1/loans/6/repayment')
+        .post('/api/v1/loans/3/repayment')
         .set('Authorization', `Bearer ${userToken}`)
         .send(mockData.createRepaymentRecord.largePaidAmount);
 
@@ -121,7 +121,7 @@ describe('Repayment', () => {
     it('User should be able to view repayment history of a loan', async () => {
       const response = await chai
         .request(app)
-        .get('/api/v1/loans/3/repayments')
+        .get('/api/v1/loans/1/repayments')
         .set('Authorization', `Bearer ${userToken}`);
 
       expect(response.status).to.equal(200);

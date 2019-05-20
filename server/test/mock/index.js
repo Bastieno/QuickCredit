@@ -36,6 +36,13 @@ const signUp = {
     password: 'mara23',
     address: 'Km 18 Airport Road, Galadimawa, Abuja',
   },
+  validNewUser1: {
+    email: 'uju@gmail.com',
+    firstName: 'Ujunwa',
+    lastName: 'Nduamaka',
+    password: 'beautiful',
+    address: 'Km 20 Airport Road, Galadimawa, Abuja',
+  },
   missingFirstName: {
     lastName: 'Nduamaka',
     password: 'chisom15',
@@ -161,8 +168,9 @@ const signUp = {
 
 const resetPassword = {
   registeredUser: {
-    email: 'chisom@gmail.com',
-    newPassword: 'myhero',
+    email: 'fnduamaka@gmail.com',
+    passwword: 'chisom15',
+    newPassword: 'francis24',
   },
   unregisteredUser: {
     email: 'kamara@gmail.com',
@@ -205,9 +213,9 @@ const createLoan = {
     tenor: '15',
   },
   conflictLoan: {
-    email: 'kimble@gmail.com',
-    firstName: 'Kimble',
-    lastName: 'Okoye',
+    email: 'uche@gmail.com',
+    firstName: 'Uche',
+    lastName: 'Njoku',
     amount: '50000',
     tenor: '6',
   },

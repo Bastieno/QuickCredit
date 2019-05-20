@@ -22,6 +22,7 @@ const validateSignup = [
   validateLogin[0],
   validateLogin[1],
   sanitizeBody('firstName').customSanitizer(value => value.replace(/\s\s+/g, ' ').trim()),
+  sanitizeBody('firstName').customSanitizer(value => value.toLowerCase()),
   body('firstName')
     .exists()
     .withMessage('Please provide a first name')
@@ -32,6 +33,7 @@ const validateSignup = [
     .withMessage('First name should only contain alphabets'),
 
   sanitizeBody('lastName').customSanitizer(value => value.replace(/\s\s+/g, ' ').trim()),
+  sanitizeBody('lastName').customSanitizer(value => value.toLowerCase()),
   body('lastName')
     .exists()
     .withMessage('Please provide a last name')
@@ -58,6 +60,16 @@ const validateUserId = [
     .withMessage('User ID must be a positive integer from 1'),
 ];
 
+const validateUserEmail = [
+  param('userEmail')
+    .exists()
+    .withMessage('Email is missing')
+    .trim()
+    .isEmail()
+    .withMessage('Invalid email address')
+    .normalizeEmail({ all_lowercase: true }),
+];
+
 const validateVerifyUser = [
   param('userEmail')
     .normalizeEmail({ all_lowercase: true })
@@ -68,11 +80,29 @@ const validateVerifyUser = [
     .withMessage('Invalid email address entered'),
 ];
 
-const validateDeleteUser = [validateVerifyUser[0]];
+const validateDeleteUser = [validateUserEmail[0]];
 
 const validateResetPassword = [
-  validateLogin[0],
+  validateUserEmail[0],
+  body('email')
+    .optional()
+    .exists()
+    .withMessage('Email is required')
+    .trim()
+    .isEmail()
+    .withMessage('Invalid email address entered')
+    .normalizeEmail({ all_lowercase: true }),
+
+  body('password')
+    .optional()
+    .exists()
+    .withMessage('Password is required')
+    .trim()
+    .isLength({ min: 6, max: 100 })
+    .withMessage('Password should be at least 6 characters'),
+
   body('newPassword')
+    .optional()
     .exists()
     .withMessage('Password is required')
     .trim()
@@ -96,6 +126,7 @@ const userValidations = {
   validateLogin,
   validateSignup,
   validateUserId,
+  validateUserEmail,
   validateVerifyUser,
   validateDeleteUser,
   validateResetPassword,

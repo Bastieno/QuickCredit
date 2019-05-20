@@ -11,7 +11,7 @@ const { verifyToken, adminOnly } = authMiddleware;
 const {
   validateLogin,
   validateSignup,
-  validateUserId,
+  validateUserEmail,
   validateVerifyUser,
   validateDeleteUser,
   validateResetPassword,
@@ -23,7 +23,7 @@ const {
   createUser,
   getAllUsers,
   getSingleUser,
-  verifyUser,
+  adminVerifyUser,
   deleteUser,
   resetPassword,
 } = UserController;
@@ -38,15 +38,15 @@ auth.post('/signin', [validateLogin, validationHandler], loginUser);
 users.get('/', [verifyToken, adminOnly], getAllUsers);
 
 // Router to get a single user from the users array
-users.get('/:userId', [verifyToken, adminOnly, validateUserId, validationHandler], getSingleUser);
+users.get('/:userEmail', [verifyToken, adminOnly, validateUserEmail, validationHandler], getSingleUser);
 
 // Router to mark a user as verified
-users.patch('/:userEmail', [verifyToken, adminOnly, validateVerifyUser, validationHandler], verifyUser);
+users.patch('/:userEmail/verify', [verifyToken, adminOnly, validateVerifyUser, validationHandler], adminVerifyUser);
 
 // Router to delete a user
-users.delete('/:userEmail', [verifyToken, adminOnly, validateDeleteUser, validationHandler], deleteUser);
+users.delete('/:userEmail/delete', [verifyToken, adminOnly, validateDeleteUser, validationHandler], deleteUser);
 
 // Router to reset password
-users.post('/password', [validateResetPassword, validationHandler], resetPassword);
+users.post('/:userEmail/reset_password', [validateResetPassword, validationHandler], resetPassword);
 
 export { auth, users };

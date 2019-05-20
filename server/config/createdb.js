@@ -1,3 +1,4 @@
+import log from 'fancy-log';
 import pool from '../utils/connection';
 
 const usersTable = `CREATE TABLE IF NOT EXISTS 
@@ -37,11 +38,11 @@ repayments (
 
 (async () => {
   try {
-    console.log('Database creation starts');
+    log('Database creation starts');
     await pool.query(`${usersTable}`);
     await pool.query(`${loansTable}`);
     await pool.query(`${repaymentsTable}`);
-    console.log('Database creation ends');
+    log('Database creation ends');
   } catch (error) {
     return error.stack;
   }

@@ -16,10 +16,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(router);
+
+// Implement the 'catch-all' errorHandler
 app.use((err, req, res, next) => {
   res.status(err.status || 500);
-  res.json({ message: err.message, status: 'failure' });
-  next();
+  res.json({
+    message: `Hey!! we caught the error 👍👍, ${err.stack} `,
+    status: 'failure'
+  });
 });
 
 app.listen(port, () => {

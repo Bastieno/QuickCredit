@@ -91,8 +91,8 @@ describe('Loan', () => {
 
     it('User can apply for one loan at a time', async () => {
       const userLogin = {
-        email: 'kimble@gmail.com',
-        password: 'awesome21',
+        email: 'uche@gmail.com',
+        password: 'myhero',
       };
       const loginResponse = await chai
         .request(app)
@@ -220,7 +220,7 @@ describe('Loan', () => {
     it('Admin should be able to retrieve a single loan', async () => {
       const response = await chai
         .request(app)
-        .get('/api/v1/loans/4')
+        .get('/api/v1/loans/1')
         .set('Authorization', `Bearer ${adminToken}`);
 
       expect(response.status).to.equal(200);
@@ -229,7 +229,7 @@ describe('Loan', () => {
     it('A user cannot get a specific loan', async () => {
       const response = await chai
         .request(app)
-        .get('/api/v1/loans/4')
+        .get('/api/v1/loans/1')
         .set('Authorization', `Bearer ${userToken}`);
 
       expect(response.status).to.equal(403);
@@ -267,7 +267,7 @@ describe('Loan', () => {
     it('Admin should be able to approve/reject loan application', async () => {
       const response = await chai
         .request(app)
-        .patch('/api/v1/loans/8')
+        .patch('/api/v1/loans/4')
         .set('Authorization', `Bearer ${adminToken}`)
         .send(mockData.statusUpdate.validStatus);
 
@@ -277,7 +277,7 @@ describe('Loan', () => {
     it('Admin cannot approve/reject loans for unverified users', async () => {
       const response = await chai
         .request(app)
-        .patch('/api/v1/loans/4')
+        .patch('/api/v1/loans/2')
         .set('Authorization', `Bearer ${adminToken}`)
         .send(mockData.statusUpdate.validStatus);
 
@@ -297,7 +297,7 @@ describe('Loan', () => {
     it('It should return a 400 error for already approved loans', async () => {
       const response = await chai
         .request(app)
-        .patch('/api/v1/loans/6')
+        .patch('/api/v1/loans/3')
         .set('Authorization', `Bearer ${adminToken}`)
         .send(mockData.statusUpdate.validStatus);
 

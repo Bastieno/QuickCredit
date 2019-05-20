@@ -1,3 +1,4 @@
+import log from 'fancy-log';
 import pool from '../utils/connection';
 import query from '../utils/queries';
 import users from '../utils/dbSeed/dbUserSeed';
@@ -37,11 +38,11 @@ const setupDbTables = async () => {
     const allUsers = await pool.query('select * from users;');
     const allLoans = await pool.query('select * from loans;');
     const allRepayments = await pool.query('select * from repayments;');
-    console.log('users:', allUsers.rows);
-    console.log('loans:', allLoans.rows);
-    console.log('repayments:', allRepayments.rows);
+    log('users:', allUsers.rows);
+    log('loans:', allLoans.rows);
+    log('repayments:', allRepayments.rows);
   } catch (error) {
-    console.log(error.stack);
+    log(error.stack);
     return error.stack;
   }
 };
