@@ -1,7 +1,7 @@
 import moment from 'moment';
-import loans from '../models/loan';
-import repayments from '../models/repayment';
+import query from '../utils/queries';
 import handleResponse from '../utils/responseHandler';
+import pool from '../utils/connection';
 
 
 class RepaymentController {
@@ -16,74 +16,78 @@ class RepaymentController {
    * @memberof RepaymentController
    */
   static async createRepaymentRecord(req, res, next) {
-    let { loanId } = req.params;
-    let { paidAmount } = req.body;
-    loanId = parseInt(loanId, 10);
-    paidAmount = parseFloat(paidAmount, 10);
+    try {
+      let { loanId } = req.params;
+      let { paidAmount } = req.body;
+      loanId = parseInt(loanId, 10);
+      paidAmount = parseFloat(paidAmount, 10);
 
-    const foundLoan = loans.find(loan => loan.loanId === loanId);
+      const foundLoan = await pool.query(query.findLoanById(loanId));
+      const result = foundLoan.rows[0];
 
-    if (!foundLoan) {
-      return res.status(404).send({
-        status: 404,
-        error: 'The loan with the given ID does not exist!',
-      });
+      if (!foundLoan.rowCount) {
+        return res.status(404).send({
+          status: 404,
+          error: 'The loan with the given ID does not exist!',
+        });
+      }
+
+      if (result.status !== 'approved') {
+        return res.status(400).send({
+          status: 400,
+          error: 'This loan has not been approved!',
+        });
+      }
+
+      if (result.repaid) {
+        return res.status(400).send({
+          status: 400,
+          error: 'This loan is fully repaid!',
+        });
+      }
+
+      const { amount } = result;
+      const createdOn = moment().format('LLL');
+      const monthlyInstallment = result.payment_installment;
+
+      const getAllRepaymentRecord = await pool.query(query.getRepaymentRecord(loanId));
+
+      const paymentNumber = getAllRepaymentRecord.rowCount + 1;
+
+      // Update balance property of loan as a result of repayment
+      if (result.balance >= paidAmount) {
+        result.balance -= paidAmount;
+        await pool.query(query.updateLoanBalance(result.balance, loanId));
+      } else {
+        return res.status(400).send({
+          status: 400,
+          error: `The Paid Amount exceeds client debt! Debt left is ${result.balance}`,
+        });
+      }
+
+      const updatedLoan = await pool.query(query.findLoanById(loanId));
+
+      const newRepaymentRecord = {
+        loanId,
+        createdOn,
+        amount,
+        monthlyInstallment,
+        paidAmount,
+        balance: updatedLoan.rows[0].balance,
+        paymentNumber,
+      };
+
+      const repaymentRecord = await pool.query(query.createRepaymentRecord(newRepaymentRecord));
+
+      if (updatedLoan.rows[0].balance <= 0.05) {
+        await pool.query(query.updateLoanRepaidValue(true, loanId));
+        return handleResponse(repaymentRecord.rows[0], next, res, 200, 'Congratulations! This loan is fully repaid');
+      }
+
+      return handleResponse(repaymentRecord.rows[0], next, res, 201, 'Repayment record created successfully');
+    } catch (error) {
+      return error;
     }
-
-    if (foundLoan.status !== 'approved') {
-      return res.status(400).send({
-        status: 400,
-        error: 'This loan has not been approved!',
-      });
-    }
-
-    if (foundLoan.repaid) {
-      return res.status(400).send({
-        status: 400,
-        error: 'This loan is fully repaid!',
-      });
-    }
-
-    const { paymentInstallment, amount } = foundLoan;
-    const id = repayments.length + 1;
-    const createdOn = moment().format('LLL');
-    const monthlyInstallment = paymentInstallment;
-
-    const getAllRepaymentRecord = repayments
-      .filter(repayment => repayment.loanId === loanId);
-
-    const paymentNumber = getAllRepaymentRecord.length + 1;
-
-    // Update balance property of loan as a result of repayment
-    if (foundLoan.balance >= paidAmount) {
-      foundLoan.balance -= paidAmount;
-    } else {
-      return res.status(400).send({
-        status: 400,
-        error: `The Paid Amount exceeds client debt! Debt left is ${foundLoan.balance}`,
-      });
-    }
-    const createdRepaymentRecord = {
-      id,
-      loanId,
-      createdOn,
-      amount,
-      monthlyInstallment,
-      paidAmount,
-      balance: foundLoan.balance,
-      paymentNumber,
-    };
-
-    repayments.push(createdRepaymentRecord);
-
-    const result = createdRepaymentRecord;
-
-    if (foundLoan.balance <= 0.05) {
-      foundLoan.repaid = true;
-      return handleResponse(result, next, res, 200, 'Congratulations! This loan is fully repaid');
-    }
-
-    return handleResponse(result, next, res, 201, 'Repayment record created successfully');
   }
 
   /**
@@ -99,35 +103,32 @@ class RepaymentController {
   static async getRepaymentRecord(req, res, next) {
     let { loanId } = req.params;
     loanId = parseInt(loanId, 10);
-    const foundLoan = loans.find(loan => loan.loanId === loanId);
+    const foundLoan = await pool.query(query.findLoanById(loanId));
+    const result = foundLoan.rows[0];
 
-    if (!foundLoan) {
+    if (!foundLoan.rowCount) {
       return res.status(404).send({
         status: 404,
         error: 'No loan with the given ID does not exist!',
       });
     }
 
-    if (foundLoan.status !== 'approved') {
+    if (result.status !== 'approved') {
       return res.status(400).send({
         status: 400,
         error: 'This loan has not been approved!',
       });
     }
 
-    const getAllRepaymentRecord = repayments.filter(
-      repayment => repayment.loanId === loanId,
-    );
+    const getAllRepaymentRecord = await pool.query(query.getRepaymentRecord(loanId));
 
-    const result = getAllRepaymentRecord;
-
-    if (result.length === 0) {
-      return handleResponse(result, next, res, 200, 'There is no repayment record for this loan!');
+    if (getAllRepaymentRecord.rowCount === 0) {
+      return handleResponse(getAllRepaymentRecord.rows, next, res, 200, 'There is no repayment record for this loan!');
     }
 
-    const message = result.length === 1 ? 'Repayment record retrieved successfully' : 'Repayment records retrieved successfully';
+    const message = getAllRepaymentRecord.rowCount === 1 ? 'Repayment record retrieved successfully' : 'Repayment records retrieved successfully';
 
-    return handleResponse(result, next, res, 200, message);
+    return handleResponse(getAllRepaymentRecord.rows, next, res, 200, message);
   }
 }
 

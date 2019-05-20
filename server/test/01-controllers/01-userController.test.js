@@ -20,7 +20,7 @@ describe('User', () => {
       expect(response.status).to.equal(201);
       expect(response.body).to.have.property('data');
       expect(response.body).to.be.an('object');
-      expect(response.body.data).to.have.keys(['token', 'id', 'firstName', 'lastName', 'password', 'email']);
+      expect(response.body.data).to.have.keys(['token', 'userId', 'firstName', 'lastName', 'email', 'password']);
     });
 
     it('It should return a conflict error when account already exists', async () => {
@@ -307,10 +307,10 @@ describe('User', () => {
   });
 
   describe('Get Single User', () => {
-    it('It should return a 404 error for a non-existing id', async () => {
+    it('It should return a 404 error for a non-existing user email', async () => {
       const response = await chai
         .request(app)
-        .get('/api/v1/users/10')
+        .get('/api/v1/users/hammed@gmail.com')
         .set('Authorization', `Bearer ${adminToken}`);
 
       expect(response.status).to.equal(404);
@@ -319,7 +319,7 @@ describe('User', () => {
     it('Admin should be able to retrieve a single user', async () => {
       const response = await chai
         .request(app)
-        .get('/api/v1/users/4')
+        .get('/api/v1/users/chisom@gmail.com')
         .set('Authorization', `Bearer ${adminToken}`);
 
       expect(response.status).to.equal(200);
@@ -339,7 +339,7 @@ describe('User', () => {
     it('It should return a 404 error when trying to verify a non-existing account', async () => {
       const response = await chai
         .request(app)
-        .patch('/api/v1/users/adams@gmail.com')
+        .patch('/api/v1/users/adams@gmail.com/verify')
         .set('Authorization', `Bearer ${adminToken}`);
 
       expect(response.status).to.equal(404);
@@ -348,7 +348,7 @@ describe('User', () => {
     it('Only admin should be able to verify an account', async () => {
       const response = await chai
         .request(app)
-        .patch('/api/v1/users/fnduamaka@gmail.com')
+        .patch('/api/v1/users/amara@gmail.com/verify')
         .set('Authorization', `Bearer ${adminToken}`);
 
       expect(response.status).to.equal(200);
@@ -357,7 +357,7 @@ describe('User', () => {
     it('A user cannot verify an account', async () => {
       const response = await chai
         .request(app)
-        .patch('/api/v1/users/fnduamaka@gmail.com')
+        .patch('/api/v1/users/gwinters@gmail.com/verify')
         .set('Authorization', `Bearer ${userToken}`);
 
       expect(response.status).to.equal(403);
@@ -368,7 +368,7 @@ describe('User', () => {
     it('It should return a 404 error when trying to delete a non-existing account', async () => {
       const response = await chai
         .request(app)
-        .del('/api/v1/users/jsnow@fakemail.com')
+        .del('/api/v1/users/jsnow@fakemail.com/delete')
         .set('Authorization', `Bearer ${adminToken}`);
 
       expect(response.status).to.equal(404);
@@ -377,7 +377,7 @@ describe('User', () => {
     it('Should return an authorization error when an invalid token is passed', async () => {
       const response = await chai
         .request(app)
-        .del('/api/v1/users/gwinters@gmail.com')
+        .del('/api/v1/users/gwinters@gmail.com/delete')
         .set('Authorization', 'Bearer WrongToken');
 
       expect(response.status).to.equal(401);
@@ -386,7 +386,7 @@ describe('User', () => {
     it('Admin should be able to delete other accounts', async () => {
       const response = await chai
         .request(app)
-        .del('/api/v1/users/gwinters@gmail.com')
+        .del('/api/v1/users/gwinters@gmail.com/delete')
         .set('Authorization', `Bearer ${adminToken}`);
 
       expect(response.status).to.equal(200);
@@ -395,7 +395,7 @@ describe('User', () => {
     it('A user cannot delete other accounts', async () => {
       const response = await chai
         .request(app)
-        .del('/api/v1/users/gwinters@gmail.com')
+        .del('/api/v1/users/gwinters@gmail.com/delete')
         .set('Authorization', `Bearer ${userToken}`);
 
       expect(response.status).to.equal(403);
@@ -406,43 +406,23 @@ describe('User', () => {
     it('User should be able to reset password', async () => {
       const response = await chai
         .request(app)
-        .post('/api/v1/users/password')
-        .send(mockData.resetPassword.registeredUser);
-
-      expect(response.status).to.equal(201);
+        .post('/api/v1/users/cynthia@gmail.com/reset_password');
+      expect(response.status).to.equal(200);
     });
 
     it('It should return 404 for non-existing accounts', async () => {
       const response = await chai
         .request(app)
-        .post('/api/v1/users/password')
+        .post('/api/v1/users/dalu@gmail.com/reset_password')
         .send(mockData.resetPassword.unregisteredUser);
 
       expect(response.status).to.equal(404);
     });
 
-    it('It should return 400 if email is missing', async () => {
-      const response = await chai
-        .request(app)
-        .post('/api/v1/users/password')
-        .send(mockData.resetPassword.missingEmail);
-
-      expect(response.status).to.equal(400);
-    });
-
-    it('It should return 400 if password is missing', async () => {
-      const response = await chai
-        .request(app)
-        .post('/api/v1/users/password')
-        .send(mockData.resetPassword.missingPassword);
-
-      expect(response.status).to.equal(400);
-    });
-
     it('It should return 400 if email is invalid', async () => {
       const response = await chai
         .request(app)
-        .post('/api/v1/users/password')
+        .post('/api/v1/users/amara@gmail.com/reset_password')
         .send(mockData.resetPassword.invalidEmail);
 
       expect(response.status).to.equal(400);
@@ -451,7 +431,7 @@ describe('User', () => {
     it('It should return 400 if password is less than 6 characters', async () => {
       const response = await chai
         .request(app)
-        .post('/api/v1/users/password')
+        .post('/api/v1/users/amara@gmail.com/reset_password')
         .send(mockData.resetPassword.shortPassword);
 
       expect(response.status).to.equal(400);
@@ -460,7 +440,7 @@ describe('User', () => {
     it('It should return a 400 error when password has more than 100 characters', async () => {
       const response = await chai
         .request(app)
-        .post('/api/v1/users/password')
+        .post('/api/v1/users/amara@gmail.com/reset_password')
         .send(mockData.resetPassword.longPassword);
 
       expect(response.status).to.equal(400);

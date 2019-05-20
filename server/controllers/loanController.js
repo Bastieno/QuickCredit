@@ -1,8 +1,7 @@
 import moment from 'moment';
-import loans from '../models/loan';
-import users from '../models/user';
+import query from '../utils/queries';
 import handleResponse from '../utils/responseHandler';
-
+import pool from '../utils/connection';
 
 /**
  *
@@ -21,79 +20,81 @@ class LoanController {
    * @memberof UserController
    */
   static async createLoan(req, res, next) {
-    const { email, firstName, lastName } = req.body;
-    let { amount, tenor } = req.body;
+    try {
+      const { email, firstName, lastName } = req.body;
+      let { amount, tenor } = req.body;
 
-    if (req.user.email !== email) {
-      return res.status(400).send({
-        status: 400,
-        error: 'Email provided does not match your email!',
-      });
+      if (req.user.email !== email) {
+        return res.status(400).send({
+          status: 400,
+          error: 'Email provided does not match your email!',
+        });
+      }
+
+      if (req.user.firstName !== firstName) {
+        return res.status(400).send({
+          status: 400,
+          error: 'First name provided does not match your first name!',
+        });
+      }
+
+      if (req.user.lastName !== lastName) {
+        return res.status(400).send({
+          status: 400,
+          error: 'Last name provided does not match your last name!',
+        });
+      }
+
+      const { rows, rowCount } = await pool.query(query.findLoanByEmail(email));
+
+      if (rowCount && rows[0].user_email === email && !rows[0].repaid) {
+        return res.status(409).send({
+          status: 409,
+          error: 'You can only apply for a loan at a time!',
+        });
+      }
+
+      amount = parseFloat(amount, 10);
+      tenor = parseInt(tenor, 10);
+
+      const createdOn = moment().format('LLL');
+      const status = 'pending';
+      const repaid = false;
+      const interest = (0.05 * amount) * tenor;
+      const balance = amount + interest;
+      const paymentInstallment = balance / tenor;
+
+      const createdLoan = {
+        userEmail: email,
+        createdOn,
+        status,
+        repaid,
+        tenor,
+        amount,
+        paymentInstallment,
+        balance,
+        interest,
+      };
+
+      const result = {
+        firstName,
+        lastName,
+        userEmail: email,
+        createdOn,
+        status,
+        repaid,
+        tenor,
+        amount,
+        paymentInstallment,
+        balance,
+        interest,
+      };
+
+      await pool.query(query.createLoan(createdLoan));
+      return handleResponse(result, next, res, 201, 'Loan created successfully');
+    } catch (error) {
+      return error;
     }
-
-    if (req.user.firstName !== firstName) {
-      return res.status(400).send({
-        status: 400,
-        error: 'First name provided does not match your first name!',
-      });
-    }
-
-    if (req.user.lastName !== lastName) {
-      return res.status(400).send({
-        status: 400,
-        error: 'Last name provided does not match your last name!',
-      });
-    }
-
-    if (loans.find(loan => loan.userEmail === email && !loan.repaid)) {
-      return res.status(409).send({
-        status: 409,
-        error: 'You can only apply for a loan at a time!',
-      });
-    }
-
-    amount = parseFloat(amount, 10);
-    tenor = parseInt(tenor, 10);
-
-    const createdOn = moment().format('LLL');
-    const loanId = loans.length + 1;
-    const status = 'pending';
-    const repaid = false;
-    const interest = (0.05 * amount) * tenor;
-    const balance = amount + interest;
-    const paymentInstallment = balance / tenor;
-
-    const createdLoan = {
-      loanId,
-      userEmail: email,
-      createdOn,
-      status,
-      repaid,
-      tenor,
-      amount,
-      paymentInstallment,
-      balance,
-      interest,
-    };
-
-    const result = {
-      loanId,
-      firstName,
-      lastName,
-      userEmail: email,
-      createdOn,
-      status,
-      repaid,
-      tenor,
-      amount,
-      paymentInstallment,
-      balance,
-      interest,
-    };
-
-    loans.push(createdLoan);
-
-    return handleResponse(result, next, res, 201, 'Loan created successfully');
   }
 
   /**
@@ -107,23 +108,27 @@ class LoanController {
    * @memberof LoanController
    */
   static async getLoans(req, res, next) {
-    const { status } = req.query;
-    let { repaid } = req.query;
+    try {
+      const { status } = req.query;
+      let { repaid } = req.query;
 
-    if (status && repaid) {
-      repaid = JSON.parse(repaid);
-      const loanType = repaid ? 'Repaid loans' : 'Current Loans';
-      const result = loans.filter(loan => loan.status === status && loan.repaid === repaid);
-      return handleResponse(result, next, res, 200, `${loanType} retrieved successfully`);
+      if (status && repaid) {
+        repaid = JSON.parse(repaid);
+        const loanType = repaid ? 'Repaid loans' : 'Current Loans';
+        const result = await pool.query(query.getLoans(status, repaid));
+        return handleResponse(result.rows, next, res, 200, `${loanType} retrieved successfully`);
+      }
+
+      const result = await pool.query(query.getAllLoans());
+      return handleResponse(result.rows, next, res, 200, ' Loans retrieved successfully');
+    } catch (error) {
+      return error;
     }
-
-    const result = await loans;
-    return handleResponse(result, next, res, 200, ' Loans retrieved successfully');
   }
 
   /**
    *
-   * @description Retrieves a single loan from the loans array
+   * @description Retrieves a single loan from the loans database
    * @static
    * @param {object} req Request Object
    * @param {object} res Response Object
@@ -133,14 +138,14 @@ class LoanController {
    */
   static async getSingleLoan(req, res, next) {
     const { loanId } = req.params;
-    const foundLoan = await loans.find(loan => loan.loanId === parseInt(loanId, 10));
-    if (!foundLoan) {
+    const foundLoan = await pool.query(query.findLoanById(parseInt(loanId, 10)));
+    if (!foundLoan.rowCount) {
       return res.status(404).send({
         status: 404,
         error: 'Loan not found',
       });
     }
-    const result = foundLoan;
+    const result = foundLoan.rows[0];
     return handleResponse(result, next, res, 200, 'Loan retrieved successfully');
   }
 
@@ -155,38 +160,42 @@ class LoanController {
    * @memberof UserController
    */
   static async loanStatusUpdate(req, res, next) {
-    const { loanId } = req.params;
-    const { status } = req.body;
-    const foundLoan = await loans.find(loan => loan.loanId === parseInt(loanId, 10));
-    if (!foundLoan) {
-      return res.status(404).send({
-        status: 404,
-        error: 'Loan not found',
-      });
+    try {
+      const { loanId } = req.params;
+      const { status } = req.body;
+      const foundLoan = await pool.query(query.findLoanById(parseInt(loanId, 10)));
+      const result = foundLoan.rows[0];
+
+      if (!foundLoan.rowCount) {
+        return res.status(404).send({
+          status: 404,
+          error: 'Loan not found',
+        });
+      }
+
+      // Admin cannot approve loans for unverifed users
+      const foundUser = await pool.query(query.findUserByEmail(result.user_email));
+      if (foundUser.rows[0].status === 'unverified') {
+        return res.status(403).send({
+          status: 403,
+          error: 'You cannot approve loans for unverified users',
+        });
+      }
+
+      // For loans that are already approved
+      if (result.status === 'approved') {
+        return res.status(400).send({
+          status: 400,
+          error: 'This loan is approved already!',
+        });
+      }
+
+      const { rows } = await pool.query(query.updateLoanStatus(status, loanId));
+
+      return handleResponse(rows[0], next, res, 200, 'Loan status updated successfully');
+    } catch (error) {
+      return error;
     }
-
-    // Admin cannot approve loans for unverifed users
-    const { userEmail } = foundLoan;
-    const foundUser = await users.find(user => user.email === userEmail);
-    if (foundUser.status === 'unverified') {
-      return res.status(403).send({
-        status: 403,
-        error: 'You cannot approve loans for unverified users',
-      });
-    }
-
-    // For loans that are already approved
-    if (foundLoan.status === 'approved') {
-      return res.status(400).send({
-        status: 400,
-        error: 'This loan is approved already!',
-      });
-    }
-
-    foundLoan.status = status;
-
-    const result = foundLoan;
-    return handleResponse(result, next, res, 200, 'Loan status updated successfully');
   }
 }
 

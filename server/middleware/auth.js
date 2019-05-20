@@ -37,8 +37,8 @@ const adminOnly = (req, res, next) => {
 };
 
 const userOnly = (req, res, next) => {
-  const { id } = req.user;
-  if (!id) {
+  const { userId } = req.user;
+  if (!userId) {
     return res.status(403).send({
       status: 403,
       error: 'Unauthorized Access. For authenticated users only',
