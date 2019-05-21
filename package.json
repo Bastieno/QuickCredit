@@ -15,7 +15,7 @@
     "db-init": "npm run db-drop && npm run db-create && npm run db-populate",
     "start": "node build/app.js",
     "start-dev": "nodemon --exec babel-node server/app.js",
-    "heroku-postbuild": "npm run build",
+    "heroku-postbuild": "rm -rf ./build/* && npm run build && npm run db-init",
     "nyc": "nyc --reporter=lcov npm run test && nyc report --reporter=text-lcov | coveralls",
     "coverage": "nyc npm test",
     "test": "set NODE_ENV=test && npm run db-init && nyc --reporter=text --reporter=html mocha --recursive ./server/test --exit --require @babel/register"
