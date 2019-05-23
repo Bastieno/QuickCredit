@@ -71,9 +71,7 @@ const validateUserEmail = [
 ];
 
 const validateVerifyUser = [validateUserEmail[0]];
-
 const validateDeleteUser = [validateUserEmail[0]];
-
 const validateUpdateRole = [validateUserEmail[0]];
 
 const validateResetPassword = [
@@ -116,7 +114,7 @@ const validationHandler = (req, res, next) => {
   }
 };
 
-const userValidations = { 
+const userValidations = {
   validateLogin,
   validateSignup,
   validateUserId,

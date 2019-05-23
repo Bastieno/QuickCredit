@@ -87,7 +87,6 @@ const adminOnly = (req, res, next) => {
 
 const userOnly = (req, res, next) => {
   const { userId } = req.user;
-  // Fix this: doing nothing!
   next();
 };
 

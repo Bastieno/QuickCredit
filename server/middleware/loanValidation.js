@@ -96,7 +96,6 @@ const validationHandler = (req, res, next) => {
   }
 };
 
-
 const loanValidations = {
   validateCreateLoan,
   validateQueryParams,

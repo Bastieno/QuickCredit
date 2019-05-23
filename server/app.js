@@ -10,7 +10,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(helmet());
-app.use(compression()); // Compress all routes
+app.use(compression());
 app.use(morgan('tiny'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -21,7 +21,7 @@ app.use(router);
 app.use((err, req, res, next) => {
   res.status(500);
   res.json({
-    message: `Hey!! we caught the error 👍👍, ${err.stack} `,
+    message: 'Internal Server Error',
     status: 'failure'
   });
 });
