@@ -1,5 +1,4 @@
 import { Router } from 'express';
-
 import LoanController from '../../controllers/loanController';
 import RepaymentController from '../../controllers/repaymentController';
 import loanValidations from '../../middleware/loanValidation';
@@ -8,7 +7,7 @@ import authMiddleware from '../../middleware/auth';
 
 const loans = Router();
 
-const { verifyToken, userOnly, adminOnly } = authMiddleware;
+const { verifyToken, adminOnly } = authMiddleware;
 
 const { createRepaymentRecord, getRepaymentRecord } = RepaymentController;
 
@@ -30,7 +29,7 @@ const {
 } = LoanController;
 
 // Router to create new loan
-loans.post('/', [verifyToken, userOnly, validateCreateLoan, validationHandler], createLoan);
+loans.post('/', [verifyToken, validateCreateLoan, validationHandler], createLoan);
 
 // Router to get all loans
 loans.get('/', [verifyToken, adminOnly, validateQueryParams, validationHandler], getLoans);
@@ -45,6 +44,6 @@ loans.patch('/:loanId', [verifyToken, adminOnly, validateLoanStatusUpdate, valid
 loans.post('/:loanId/repayment', [verifyToken, adminOnly, validateCreateRepaymentRecord, repaymentValidations.validationHandler], createRepaymentRecord);
 
 // Router to view repayment records for a loan
-loans.get('/:loanId/repayments', [verifyToken, userOnly, validateGetRepaymentRecord, repaymentValidations.validationHandler], getRepaymentRecord);
+loans.get('/:loanId/repayments', [verifyToken, validateGetRepaymentRecord, repaymentValidations.validationHandler], getRepaymentRecord);
 
 export default loans;

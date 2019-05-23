@@ -33,7 +33,6 @@ const validationHandler = (req, res, next) => {
   }
 };
 
-
 const repaymentValidations = {
   validateCreateRepaymentRecord,
   validateGetRepaymentRecord,

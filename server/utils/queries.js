@@ -32,6 +32,14 @@ const query = {
     values: [status, email],
   }),
 
+  updateUserRole: (isAdmin, email) => ({
+    text: `UPDATE users SET 
+          is_admin = COALESCE($1, is_admin)
+          WHERE email = $2 
+          RETURNING *`,
+    values: [isAdmin, email],
+  }),
+
   deleteUserByEmail: userEmail => ({
     text: `DELETE FROM users 
            WHERE email = $1

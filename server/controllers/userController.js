@@ -8,6 +8,7 @@ import query from '../utils/queries';
 import handleResponse from '../utils/responseHandler';
 import isEmptyObject from '../utils/isEmptyObject';
 
+
 dotenv.config();
 const SECRET_KEY = process.env.JWT_KEY;
 
@@ -30,7 +31,6 @@ class UserController {
   static async loginUser(req, res, next) {
     try {
       const { email, password } = req.body;
-
       const foundUser = await pool.query(query.findUserByEmail(email));
       const result = foundUser.rows[0];
 
@@ -62,7 +62,7 @@ class UserController {
         isAdmin: is_admin,
       };
 
-      const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '2h' });
+      const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '8h' });
 
       const feedback = payload;
       feedback.token = token;
@@ -309,6 +309,42 @@ class UserController {
       const result = rows[0];
       result.password = newPassword;
       return handleResponse(result, next, res, 200, 'User password reset successfully');
+    } catch (error) {
+      return error;
+    }
+  }
+
+  /**
+   *
+   * @description Modify user's status
+   * @static
+   * @param {object} req Request Object
+   * @param {object} res Response Object
+   * @param {object} next calls the next middleware in the request-response cycle
+   * @returns {object} Updated user object
+   * @memberof UserController
+   */
+  static async updateRole(req, res, next) {
+    try {
+      const { userEmail } = req.params;
+      const foundUser = await pool.query(query.findUserByEmail(userEmail));
+
+      if (!foundUser.rowCount) {
+        return res.status(404).send({
+          status: 404,
+          error: 'User not found',
+        });
+      }
+
+      if (foundUser.rows[0].is_admin === true) {
+        return res.status(404).send({
+          status: 409,
+          error: 'This user is already an admin!',
+        });
+      }
+
+      const result = await pool.query(query.updateUserRole(true, userEmail));
+      return handleResponse(result.rows[0], next, res, 200, 'User is now an admin');
     } catch (error) {
       return error;
     }

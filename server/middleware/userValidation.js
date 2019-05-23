@@ -62,25 +62,17 @@ const validateUserId = [
 
 const validateUserEmail = [
   param('userEmail')
+    .normalizeEmail({ all_lowercase: true })
     .exists()
     .withMessage('Email is missing')
     .trim()
     .isEmail()
-    .withMessage('Invalid email address')
-    .normalizeEmail({ all_lowercase: true }),
+    .withMessage('Invalid email address'),
 ];
 
-const validateVerifyUser = [
-  param('userEmail')
-    .normalizeEmail({ all_lowercase: true })
-    .exists()
-    .withMessage('A valid email must be provided.')
-    .trim()
-    .isEmail()
-    .withMessage('Invalid email address entered'),
-];
-
+const validateVerifyUser = [validateUserEmail[0]];
 const validateDeleteUser = [validateUserEmail[0]];
+const validateUpdateRole = [validateUserEmail[0]];
 
 const validateResetPassword = [
   validateUserEmail[0],
@@ -129,6 +121,7 @@ const userValidations = {
   validateUserEmail,
   validateVerifyUser,
   validateDeleteUser,
+  validateUpdateRole,
   validateResetPassword,
   validationHandler,
 };
