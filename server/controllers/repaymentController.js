@@ -19,9 +19,7 @@ class RepaymentController {
   static async createRepaymentRecord(req, res, next) {
     try {
       let { loanId } = req.params;
-      // let { paidAmount } = req.body;
       loanId = parseInt(loanId, 10);
-      // paidAmount = parseFloat(paidAmount, 10);
 
       const foundLoan = await pool.query(query.findLoanById(loanId));
       const result = foundLoan.rows[0];
