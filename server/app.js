@@ -19,7 +19,7 @@ app.use(router);
 
 // Implement the 'catch-all' errorHandler
 app.use((err, req, res, next) => {
-  res.status(err.status || 500);
+  res.status(500);
   res.json({
     message: `Hey!! we caught the error 👍👍, ${err.stack} `,
     status: 'failure'

@@ -267,6 +267,22 @@ describe('User', () => {
       expect(response.body.data.token).to.be.a('string');
       userToken = response.body.data.token;
     });
+
+    it('It should login a user with valid token', async () => {
+      const response = await chai
+        .request(app)
+        .post('/api/v1/auth/signin')
+        .set('Authorization', `Bearer ${userToken}`);
+      expect(response.status).to.equal(200);
+    });
+
+    it('It should return 404 error if token is invalid', async () => {
+      const response = await chai
+        .request(app)
+        .post('/api/v1/auth/signin')
+        .set('Authorization', 'Bearer wrongToken');
+      expect(response.status).to.equal(401);
+    });
   });
 
   describe('Get All User', () => {
@@ -363,6 +379,36 @@ describe('User', () => {
       expect(response.status).to.equal(403);
     });
   });
+
+  describe('Update User Role', () => {
+    it('It should return a 404 error when trying to update a non-existing account', async () => {
+      const response = await chai
+        .request(app)
+        .patch('/api/v1/users/adams@gmail.com/update_role')
+        .set('Authorization', `Bearer ${adminToken}`);
+
+      expect(response.status).to.equal(404);
+    });
+
+    it('Only admin should be able to change a user role', async () => {
+      const response = await chai
+        .request(app)
+        .patch('/api/v1/users/amara@gmail.com/update_role')
+        .set('Authorization', `Bearer ${adminToken}`);
+
+      expect(response.status).to.equal(200);
+    });
+
+    it('A user cannot change another user role', async () => {
+      const response = await chai
+        .request(app)
+        .patch('/api/v1/users/gwinters@gmail.com/update_role')
+        .set('Authorization', `Bearer ${userToken}`);
+
+      expect(response.status).to.equal(403);
+    });
+  });
+
 
   describe('Delete User', () => {
     it('It should return a 404 error when trying to delete a non-existing account', async () => {
