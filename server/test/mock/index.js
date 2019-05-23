@@ -262,6 +262,9 @@ const createRepaymentRecord = {
   largePaidAmount: {
     paidAmount: '600000.00',
   },
+  smallDiff: {
+    paidAmount: '65000.00',
+  },
 };
 
 

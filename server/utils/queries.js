@@ -98,7 +98,7 @@ const query = {
 
   updateLoanStatus: (status, loanId) => ({
     text: `UPDATE loans SET 
-           status = $1 
+           status = COALESCE($1, status)
            WHERE loan_id = $2 
            RETURNING *`,
     values: [status, loanId],
@@ -106,10 +106,18 @@ const query = {
 
   updateLoanBalance: (balance, loanId) => ({
     text: `UPDATE loans SET 
-           balance = $1 
+           balance = COALESCE($1, balance)
            WHERE loan_id = $2 
            RETURNING *`,
     values: [balance, loanId],
+  }),
+
+  updateLoanRepaidValue: (repaid, loanId) => ({
+    text: `UPDATE loans SET 
+           repaid = COALESCE($1, repaid)
+           WHERE loan_id = $2 
+           RETURNING *`,
+    values: [repaid, loanId],
   }),
 
   /* Repayments */
