@@ -6,13 +6,12 @@ const validateCreateRepaymentRecord = [
     .withMessage('loan ID must be a positive integer from 1'),
 
   body('paidAmount')
-    .exists()
-    .withMessage('Paid amount is required')
+    .optional()
     .trim()
     .isNumeric()
     .withMessage('Paid amount should be a number')
-    .isFloat({ min: 1000, max: 1000000 })
-    .withMessage('Paid amount should be between 1000 and 1000000'),
+    .isFloat({ min: 1, max: 1000000 })
+    .withMessage('Paid amount should be between 1 and 1000000'),
 ];
 
 const validateGetRepaymentRecord = [

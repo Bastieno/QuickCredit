@@ -2,6 +2,7 @@ import moment from 'moment';
 import query from '../utils/queries';
 import handleResponse from '../utils/responseHandler';
 import pool from '../utils/connection';
+import isEmptyObject from '../utils/isEmptyObject';
 
 
 class RepaymentController {
@@ -18,9 +19,9 @@ class RepaymentController {
   static async createRepaymentRecord(req, res, next) {
     try {
       let { loanId } = req.params;
-      let { paidAmount } = req.body;
+      // let { paidAmount } = req.body;
       loanId = parseInt(loanId, 10);
-      paidAmount = parseFloat(paidAmount, 10);
+      // paidAmount = parseFloat(paidAmount, 10);
 
       const foundLoan = await pool.query(query.findLoanById(loanId));
       const result = foundLoan.rows[0];
@@ -46,6 +47,10 @@ class RepaymentController {
         });
       }
 
+      let paidAmount = req.body && !isEmptyObject(req.body)
+        ? req.body.paidAmount : result.payment_installment;
+      paidAmount = parseFloat(paidAmount, 10);
+
       const { amount } = result;
       const createdOn = moment().format('LLL');
       const monthlyInstallment = result.payment_installment;
@@ -57,7 +62,7 @@ class RepaymentController {
       // Update balance property of loan as a result of repayment
       if (result.balance >= paidAmount) {
         result.balance -= paidAmount;
-        await pool.query(query.updateLoanBalance(result.balance, loanId));
+        await pool.query(query.updateLoanBalance(result.balance.toFixed(2), loanId));
       } else {
         return res.status(400).send({
           status: 400,
@@ -79,7 +84,7 @@ class RepaymentController {
 
       const repaymentRecord = await pool.query(query.createRepaymentRecord(newRepaymentRecord));
 
-      if (updatedLoan.rows[0].balance <= 0.05) {
+      if (newRepaymentRecord.balance < 0.05) {
         await pool.query(query.updateLoanRepaidValue(true, loanId));
         return handleResponse(repaymentRecord.rows[0], next, res, 200, 'Congratulations! This loan is fully repaid');
       }

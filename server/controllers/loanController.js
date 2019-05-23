@@ -70,25 +70,13 @@ class LoanController {
         status,
         repaid,
         tenor,
-        amount,
-        paymentInstallment,
-        balance,
-        interest,
+        amount: amount.toFixed(2),
+        paymentInstallment: paymentInstallment.toFixed(2),
+        balance: balance.toFixed(2),
+        interest: interest.toFixed(2),
       };
 
-      const result = {
-        firstName,
-        lastName,
-        userEmail: email,
-        createdOn,
-        status,
-        repaid,
-        tenor,
-        amount,
-        paymentInstallment,
-        balance,
-        interest,
-      };
+      const result = { firstName, lastName, ...createdLoan };
 
       await pool.query(query.createLoan(createdLoan));
       return handleResponse(result, next, res, 201, 'Loan created successfully');

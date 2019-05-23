@@ -99,6 +99,25 @@ describe('Repayment', () => {
       expect(response.status).to.equal(400);
     });
 
+    it('It should return 201 if (balance - paidAmount) > 0.05', async () => {
+      const response = await chai
+        .request(app)
+        .post('/api/v1/loans/3/repayment')
+        .set('Authorization', `Bearer ${adminToken}`);
+
+      expect(response.status).to.equal(201);
+    });
+
+    it('It should return 200 if (balance - paidAmount) < 0.05', async () => {
+      const response = await chai
+        .request(app)
+        .post('/api/v1/loans/4/repayment')
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send(mockData.createRepaymentRecord.smallDiff);
+
+      expect(response.status).to.equal(200);
+    });
+
     it('User cannot create a repayment record', async () => {
       const loginResponse = await chai
         .request(app)

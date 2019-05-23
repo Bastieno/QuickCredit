@@ -12,7 +12,7 @@ const verifyToken = (req, res, next) => {
   if (typeof authHeader === 'undefined') {
     return res.status(401).send({
       status: 401,
-      error: 'Unauthorised - Header Not Set',
+      error: 'Unauthorised User',
     });
   }
   const bearer = authHeader.split(' ');
