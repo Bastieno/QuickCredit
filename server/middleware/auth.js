@@ -85,15 +85,9 @@ const adminOnly = (req, res, next) => {
   next();
 };
 
-const userOnly = (req, res, next) => {
-  const { userId } = req.user;
-  next();
-};
-
 const authValidations = {
   verifyToken,
   verifyLoginToken,
-  userOnly,
   adminOnly
 };
 

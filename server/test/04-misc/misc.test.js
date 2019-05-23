@@ -12,7 +12,7 @@ chai.use(sinonChai);
 const { expect } = chai;
 let request;
 
-describe('Users', () => {
+describe('User Index Page', () => {
   before(async () => {
     request = chai.request(app).keepOpen();
   });
